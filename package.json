@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cd packages/travel-project-frontend; npm start",
-    "dev": "cd packages/expressjs-backend; npm run dev",
+    "dev": "cd packages/travel-project-backend; npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
