@@ -2,11 +2,10 @@
   "name": "expressjs-backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "backend.js",
+  "main": "src/backend.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon backend.js",
-    "start": "node backend.js"
+    "build": "tsc",
+    "start": "npm run build && node src/backend.ts",
   },
   "author": "Seamus O'Malley",
   "license": "ISC",
@@ -14,5 +13,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
   }
 }
