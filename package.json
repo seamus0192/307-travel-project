@@ -5,15 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "cd packages/travel-project-frontend; npm start",
-    "dev": "cd packages/travel-project-backend; npm run dev",
+    "dev": "cd packages/travel-project-backend && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "workspaces": [
     "packages/*"
-  ],
-  "devDependencies": {
-    "nodemon": "^3.0.1"
-  }
+  ]
 }
