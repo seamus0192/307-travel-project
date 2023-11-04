@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "dist/backend.js",
   "scripts": {
-    "build": "tsc",
-    "start": "npm run build && node dist/backend.js"
+    "start": "ts-node src/backend.ts",
+    "build": "tsc"
   },
   "author": "Seamus O'Malley",
   "license": "ISC",
@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.15",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "setup": "npm i && cp envs/dev.env .env && npx prisma generate",
     "start": "cd packages/travel-project-frontend; npm start",
     "dev": "cd packages/travel-project-backend && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,5 +13,11 @@
   "license": "ISC",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "prisma": "^5.5.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.5.2"
+  }
 }
