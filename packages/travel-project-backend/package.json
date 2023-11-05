@@ -1,9 +1,9 @@
 {
   "name": "expressjs-backend",
   "version": "1.0.0",
-  "main": "dist/backend.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "ts-node src/backend.ts",
+    "start": "ts-node src/index.ts",
     "build": "tsc"
   },
   "author": "Seamus O'Malley",
