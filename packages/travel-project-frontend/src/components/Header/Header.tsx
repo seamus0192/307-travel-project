@@ -4,19 +4,20 @@ import { Link } from 'react-router-dom';
 
 function Header() {
     return (
-        <div>
+        <div className={styles['header']}>
             <Link to={"/home"}>
                 <img src= "../../assets/vaction_tracker.jpg" alt="Vacation Tracker logo" width="200" height="200" />
-                <p>Vacation Tracker</p>
+                <header>Vacation Tracker</header>
             </Link>
-            <Link to='/create-itinerary'>
-                <button className={styles['create-button']}>
-                    Create Itinerary
-                </button>
-            </Link>
-            <button className={styles['create-button']}>
+            <a className={styles['header-button']}>
                 References
-            </button>
+            </a>
+            <Link to='/create-itinerary' className={styles['header-button']}>
+                Create Itinerary
+            </Link>
+            <Link to='/login' className={styles['header-button']}>
+                Login/ Sign Up
+            </Link>
         </div>
    );
 }
