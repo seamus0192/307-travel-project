@@ -1,0 +1,17 @@
+.itemsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.itemCard {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 8px;
+  width: 200px;
+}
+
+.goBackButton {
+  margin: 16px;
+  padding: 8px 16px;
+}
