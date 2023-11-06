@@ -1,8 +1,7 @@
 import styles from './Login.module.css'
-import React from "react";
-
-import { Container, Typography, Box } from "@mui/material";
-import ConstructionIcon from "@mui/icons-material/Construction";
+import React, {useState} from "react";
+import { TextField, Button, Paper, Box, Typography, Link } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 {/*    
 
@@ -13,33 +12,79 @@ Just thought it would be funny to have for now rather than an empty page
 
 
 function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleLoginButtonClick = () => {
+      console.log("Login attempt with email:", email);
+      // Add your login logic here
+    };
+
     return (
-      <Container maxWidth="sm">
-        <Box
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        minHeight="100vh"
+        sx={{ backgroundColor: "#f5f5f5" }} // Assuming a light grey background
+      >
+        <Paper
+          elevation={3}
           sx={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
             alignItems: "center",
-            height: "100vh",
-            textAlign: "center",
+            padding: 4,
+            gap: 2,
+            minWidth: "300px",
+            maxWidth: "400px",
           }}
         >
-          <ConstructionIcon
-            sx={{
-              fontSize: 80,
-              color: "#7139a8",
-            }}
+          <Typography variant="h5" component="h1" gutterBottom>
+            Login
+          </Typography>
+          <TextField
+            label="Email"
+            variant="outlined"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            type="email"
           />
-          <Typography variant="h4" gutterBottom>
-            Under Construction
+          <TextField
+            label="Password"
+            variant="outlined"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            required
+            margin="normal"
+            type="password"
+          />
+          <Button
+            onClick={handleLoginButtonClick}
+            variant="contained"
+            sx={{
+              mt: 2,
+              mb: 2,
+              backgroundColor: "#7139a8",
+              ":hover": { bgcolor: "#965ad3" },
+            }}
+            fullWidth
+          >
+            Login
+          </Button>
+          <Typography variant="body2">
+            Don't have an account?{" "}
+            <Link component={RouterLink} to="/signup" color="secondary">
+              Sign up
+            </Link>
           </Typography>
-          <Typography variant="subtitle1">
-            We're working hard to finish the development of this page. Check
-            back soon!
-          </Typography>
-        </Box>
-      </Container>
+        </Paper>
+      </Box>
     );
 }
 
