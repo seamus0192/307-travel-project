@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 function CreateHomePage() {
     const [searchTitle, setSearchTitle] = useState(' ');
-    const [searchAuthor, setsearchAuthor] = useState(' ');
+    const [searchAuthor, setSearchAuthor] = useState(' ');
 
     const handleSearchButtonClick = () => {
         console.log('')
@@ -20,7 +20,7 @@ function CreateHomePage() {
                 type="text"
                 value={searchAuthor}
                 placeholder="Enter Author"
-                onChange={(e) => setsearchAuthor(e.target.value)}
+                onChange={(e) => setSearchAuthor(e.target.value)}
             />
             <button
                 onClick={handleSearchButtonClick}
