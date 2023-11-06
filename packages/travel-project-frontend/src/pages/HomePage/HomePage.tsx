@@ -14,15 +14,15 @@ function CreateHomePage() {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="100vh" // Makes sure the container takes at least the full height of the viewport
+      minHeight="100vh" 
     >
       <Paper
-        elevation={3} // Adjusts the level of the shadow effect
+        elevation={3} 
         sx={{
           width: "100%",
-          maxWidth: "500px", // Maximum width of the Paper
-          p: 4, // Padding inside the Paper
-          m: 2, // Margin around the Paper
+          maxWidth: "500px", 
+          p: 4, 
+          m: 2, 
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -49,7 +49,7 @@ function CreateHomePage() {
           variant="contained"
           color="primary"
           sx={{
-            mt: 2, // Margin top for the button
+            mt: 2, 
             backgroundColor: "#7139a8",
             ":hover": {
               bgcolor: "#965ad3",
