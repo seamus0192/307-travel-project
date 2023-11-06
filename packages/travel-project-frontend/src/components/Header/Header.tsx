@@ -31,7 +31,6 @@ const Header: React.FC = () => {
               height="50"
             />
           </IconButton>
-          {/* Apply inline style to the Typography component */}
           <Typography
             variant="h6"
             color="inherit"
@@ -39,7 +38,7 @@ const Header: React.FC = () => {
             sx={{
               display: "flex",
               alignItems: "center",
-              fontFamily: "'Roboto', sans-serif", // Change this to your chosen font
+              fontFamily: "'Roboto', sans-serif",
               fontWeight: 500,
               marginLeft: 1,
             }}
