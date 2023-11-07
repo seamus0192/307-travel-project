@@ -16,6 +16,8 @@ model User {
   username    String      @unique
   password    String
   itineraries Itinerary[]
+
+  @@map("user")
 }
 
 model Itinerary {
@@ -26,6 +28,7 @@ model Itinerary {
   days   Day[]
 
   @@index([userId])
+  @@map("itinerary")
 }
 
 model Day {
@@ -36,6 +39,7 @@ model Day {
   events      Event[]
 
   @@index([itineraryId])
+  @@map("day")
 }
 
 model Event {
@@ -49,4 +53,5 @@ model Event {
   dayId     Int
 
   @@index([dayId])
+  @@map("event")
 }
