@@ -1,7 +1,24 @@
 // import styles from './CreateItinerary.module.css'
 import React, { useState } from 'react'
 import { Container, TextField, Button, Box, Paper } from '@mui/material'
-// import IconSelection from '../../components/IconSelection/IconSelection'
+import IconSelection from '../../components/IconSelection/IconSelection'
+import ForestIcon from '@mui/icons-material/Forest'
+import BeachAccessIcon from '@mui/icons-material/BeachAccess'
+import NordicWalkingIcon from '@mui/icons-material/NordicWalking'
+import EmojiTransportationIcon from '@mui/icons-material/EmojiTransportation'
+import CabinIcon from '@mui/icons-material/Cabin'
+import SnowshoeingIcon from '@mui/icons-material/Snowshoeing'
+import HolidayVillageIcon from '@mui/icons-material/HolidayVillage'
+import AcUnitIcon from '@mui/icons-material/AcUnit'
+import TravelExploreIcon from '@mui/icons-material/TravelExplore'
+import AnchorIcon from '@mui/icons-material/Anchor'
+import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat'
+import LocationCityIcon from '@mui/icons-material/LocationCity'
+
+interface IconItem {
+  name: string
+  icon: JSX.Element
+}
 
 function CreateItinerary (): JSX.Element {
   const [itenTitle, setItenTitle] = useState('')
@@ -9,12 +26,25 @@ function CreateItinerary (): JSX.Element {
   const [endDate, setEndDate] = useState('')
   const [location, setLocation] = useState('')
   const [numTravelers, setNumTravelers] = useState('')
-  const [selectedIcon, setSelectedIcon] = useState<string>('')
-
   const handleCreateButtonClick = (): void => {
     console.log('Itinerary Title:', itenTitle)
     // Adding logic later for connection with backend
   }
+
+  const icons: IconItem[] = [
+    { name: 'Forest', icon: <ForestIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Beach', icon: <BeachAccessIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Hike', icon: <NordicWalkingIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Explore', icon: <EmojiTransportationIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Cabin', icon: <CabinIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Ski', icon: <SnowshoeingIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Village', icon: <HolidayVillageIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Cold', icon: <AcUnitIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Travel', icon: <TravelExploreIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Sea', icon: <AnchorIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'Boat', icon: <DirectionsBoatIcon style={ { height: '5rem', width: '5rem' } }/> },
+    { name: 'City', icon: <LocationCityIcon style={ { height: '5rem', width: '5rem' } }/> }
+  ]
 
   return (
     <Container maxWidth="sm">
@@ -25,9 +55,7 @@ function CreateItinerary (): JSX.Element {
         marginTop={4}
       >
         <Paper elevation={6} style={{ width: '100%', padding: '2em' }}>
-          { /* TODO: implement IconSelection*/ }
-          { /*<IconSelection onSelect={(icon) => { setSelectedIcon(icon) }} />*/ }
-          { /*{selectedIcon !== '' && <p>Selected Icon: {selectedIcon}</p>}*/ }
+          <IconSelection icons={icons} />
           <Box
             display="flex"
             flexDirection="column"
