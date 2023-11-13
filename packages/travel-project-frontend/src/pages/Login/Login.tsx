@@ -1,91 +1,90 @@
-import styles from './Login.module.css'
-import React, {useState} from "react";
-import { TextField, Button, Paper, Box, Typography, Link } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+// import styles from './Login.module.css'
+import React, { useState } from 'react'
+import { TextField, Button, Paper, Box, Typography, Link } from '@mui/material'
+import { Link as RouterLink } from 'react-router-dom'
 
-{/*    
+/*
 
 ALL OF THIS CAN BE DELETED,
 Just thought it would be funny to have for now rather than an empty page
 
-*/}
+*/
 
+function Login (): JSX.Element {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
-function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const handleLoginButtonClick = (): void => {
+    console.log('Login attempt with email:', email)
+    // TODO: Add your login logic here
+  }
 
-    const handleLoginButtonClick = () => {
-      console.log("Login attempt with email:", email);
-      // Add your login logic here
-    };
-
-    return (
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="100vh"
-        sx={{ backgroundColor: "#f5f5f5" }} // Assuming a light grey background
+  return (
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      sx={ { backgroundColor: '#f5f5f5' } } // Assuming a light grey background
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: 4,
+          gap: 2,
+          minWidth: '300px',
+          maxWidth: '400px'
+        }}
       >
-        <Paper
-          elevation={3}
+        <Typography variant="h5" component="h1" gutterBottom>
+          Login
+        </Typography>
+        <TextField
+          label="Email"
+          variant="outlined"
+          value={email}
+          onChange={ (e) => { setEmail(e.target.value) } }
+          fullWidth
+          required
+          margin="normal"
+          type="email"
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          value={password}
+          onChange={ (e) => { setPassword(e.target.value) } }
+          fullWidth
+          required
+          margin="normal"
+          type="password"
+        />
+        <Button
+          onClick={handleLoginButtonClick}
+          variant="contained"
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: 4,
-            gap: 2,
-            minWidth: "300px",
-            maxWidth: "400px",
+            mt: 2,
+            mb: 2,
+            backgroundColor: '#7139a8',
+            ':hover': { bgcolor: '#965ad3' }
           }}
+          fullWidth
         >
-          <Typography variant="h5" component="h1" gutterBottom>
-            Login
-          </Typography>
-          <TextField
-            label="Email"
-            variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            required
-            margin="normal"
-            type="email"
-          />
-          <TextField
-            label="Password"
-            variant="outlined"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            required
-            margin="normal"
-            type="password"
-          />
-          <Button
-            onClick={handleLoginButtonClick}
-            variant="contained"
-            sx={{
-              mt: 2,
-              mb: 2,
-              backgroundColor: "#7139a8",
-              ":hover": { bgcolor: "#965ad3" },
-            }}
-            fullWidth
-          >
-            Login
-          </Button>
-          <Typography variant="body2">
-            Don't have an account?{" "}
-            <Link component={RouterLink} to="/signup" color="secondary">
-              Sign up
-            </Link>
-          </Typography>
-        </Paper>
-      </Box>
-    );
+          Login
+        </Button>
+        <Typography variant="body2">
+          Don&apos;t have an account?{' '}
+          <Link component={ RouterLink } to="/signup" color="secondary">
+            Sign up
+        </Link>
+        </Typography>
+      </Paper>
+    </Box>
+  )
 }
 
-export default Login;
+export default Login

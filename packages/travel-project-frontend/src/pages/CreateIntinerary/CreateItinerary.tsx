@@ -1,18 +1,20 @@
-import styles from './CreateItinerary.module.css'
-import React, { useState } from "react";
-import { Container, TextField, Button, Box, Paper } from "@mui/material";
+// import styles from './CreateItinerary.module.css'
+import React, { useState } from 'react'
+import { Container, TextField, Button, Box, Paper } from '@mui/material'
+// import IconSelection from '../../components/IconSelection/IconSelection'
 
-function CreateItinerary() {
-  const [itenTitle, setItenTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [location, setLocation] = useState("");
-  const [numTravelers, setNumTravelers] = useState("");
+function CreateItinerary (): JSX.Element {
+  const [itenTitle, setItenTitle] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+  const [location, setLocation] = useState('')
+  const [numTravelers, setNumTravelers] = useState('')
+  const [selectedIcon, setSelectedIcon] = useState<string>('')
 
-  const handleCreateButtonClick = () => {
-    console.log("Itinerary Title:", itenTitle);
+  const handleCreateButtonClick = (): void => {
+    console.log('Itinerary Title:', itenTitle)
     // Adding logic later for connection with backend
-  };
+  }
 
   return (
     <Container maxWidth="sm">
@@ -22,7 +24,10 @@ function CreateItinerary() {
         alignItems="center"
         marginTop={4}
       >
-        <Paper elevation={6} style={{ width: "100%", padding: "2em" }}>
+        <Paper elevation={6} style={{ width: '100%', padding: '2em' }}>
+          { /* TODO: implement IconSelection*/ }
+          { /*<IconSelection onSelect={(icon) => { setSelectedIcon(icon) }} />*/ }
+          { /*{selectedIcon !== '' && <p>Selected Icon: {selectedIcon}</p>}*/ }
           <Box
             display="flex"
             flexDirection="column"
@@ -33,7 +38,7 @@ function CreateItinerary() {
               label="Itinerary Title"
               variant="outlined"
               value={itenTitle}
-              onChange={(e) => setItenTitle(e.target.value)}
+              onChange={ (e) => { setItenTitle(e.target.value) } }
               margin="normal"
               fullWidth
             />
@@ -41,7 +46,7 @@ function CreateItinerary() {
               label="Location"
               variant="outlined"
               value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={ (e) => { setLocation(e.target.value) } }
               margin="normal"
               fullWidth
             />
@@ -49,7 +54,7 @@ function CreateItinerary() {
               label="Start Date (DD/MM/YYYY)"
               variant="outlined"
               value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              onChange={ (e) => { setStartDate(e.target.value) } }
               margin="normal"
               fullWidth
             />
@@ -57,7 +62,7 @@ function CreateItinerary() {
               label="End Date (DD/MM/YYYY)"
               variant="outlined"
               value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              onChange={ (e) => { setEndDate(e.target.value) } }
               margin="normal"
               fullWidth
             />
@@ -65,7 +70,7 @@ function CreateItinerary() {
               label="# of Travelers"
               variant="outlined"
               value={numTravelers}
-              onChange={(e) => setNumTravelers(e.target.value)}
+              onChange={ (e) => { setNumTravelers(e.target.value) } }
               margin="normal"
               fullWidth
             />
@@ -75,10 +80,10 @@ function CreateItinerary() {
               onClick={handleCreateButtonClick}
               sx={{
                 m: 2,
-                backgroundColor: "#7139a8",
-                ":hover": {
-                  bgcolor: "#965ad3",
-                },
+                backgroundColor: '#7139a8',
+                ':hover': {
+                  bgcolor: '#965ad3'
+                }
               }}
             >
               Create
@@ -87,74 +92,7 @@ function CreateItinerary() {
         </Paper>
       </Box>
     </Container>
-  );
+  )
 }
 
-export default CreateItinerary;
-
-// OG Code
-
-/*
-import styles from './CreateItinerary.module.css'
-import React, { useState } from 'react';
-
-function CreateItinerary() {
-    const [itenTitle, setItenTitle] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [location, setLocation] = useState('');
-    const [numTravelers, setNumTravelers] = useState('');
-
-    const handleCreateButtonClick = () => {
-        console.log('Name:', itenTitle);
-    };
-
-    return (
-        <div>
-            <input
-                type="text"
-                value={itenTitle}
-                placeholder="Itinerary Title"
-                onChange={(e) => setItenTitle(e.target.value)} // Update 'title' directly
-                className={styles['iten-title']}
-            />
-            <input
-                type="text"
-                value={location}
-                placeholder="Location"
-                onChange={(e) => setLocation(e.target.value)} // Update 'name' directly
-                className={styles['iten-location']}
-            />
-            <input
-                type="text"
-                placeholder="Start Date (DD/MM/YYYY)"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)} // Update 'name' directly
-                className={styles['iten-start-date']}
-            />
-            <input
-                type="text"
-                placeholder="End Date (DD/MM/YYYY)"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)} // Update 'name' directly
-                className={styles['iten-end-date']}
-            />
-            <input
-                type="text"
-                placeholder="# of Travelers"
-                value={numTravelers}
-                onChange={(e) => setNumTravelers(e.target.value)} // Update 'name' directly
-                className={styles['item-num-travelers']}
-            />
-            <button
-                onClick={handleCreateButtonClick}
-                className={styles['create-button']}
-            >
-                Create!
-            </button>
-        </div>
-    );
-}
-
-export default CreateItinerary;
-*/
+export default CreateItinerary
