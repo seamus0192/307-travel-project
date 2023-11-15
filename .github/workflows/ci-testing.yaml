@@ -18,10 +18,10 @@ jobs:
         run: npm ci
 
       - name: Lint frontend
-        run: npm run -w travel-project-backend lint
+        run: npm run -w packages/travel-project-backend lint
 
       - name: Lint backend
-        run: npm run -w travel-project-frontend lint
+        run: npm run -w packages/travel-project-frontend lint
 
       - name: Build project
-        run: npm run -w travel-project-frontend build
+        run: npm run -w packages/travel-project-frontend build
