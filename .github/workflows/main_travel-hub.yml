@@ -23,7 +23,7 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install --workspaces=false
+          npm install
           npm run -w packages/travel-project-backend build --if-present
           npm run -w packages/travel-project-backend test --if-present
         working-directory: packages/travel-project-backend
