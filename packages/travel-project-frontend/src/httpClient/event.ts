@@ -2,13 +2,13 @@ import axios from "axios";
 import { Prisma } from "@prisma/client";
 
 const getEvents = async (dayId: number) => {
-    const response = await axios.get(`http://localhost:8000/event/${dayId}`);
+    const response = await axios.get(`travel-hub.azurewebsites.net/event/${dayId}`);
 
     return response.data;
 }
 
 const createEvent = async (event: Prisma.EventCreateInput, dayId: number) => {
-    const response = await axios.post(`http://localhost:8000/event/${dayId}`, {
+    const response = await axios.post(`travel-hub.azurewebsites.net/event/${dayId}`, {
         name: event.name,
         startTime: event.startTime,
         endTime: event.endTime,
@@ -20,7 +20,7 @@ const createEvent = async (event: Prisma.EventCreateInput, dayId: number) => {
 }
 
 const updateEvent = async (event: Prisma.EventUpdateInput, eventId: number) => {
-    const response = await axios.put(`http://localhost:8000/event/${eventId}`, {
+    const response = await axios.put(`travel-hub.azurewebsites.net/event/${eventId}`, {
         name: event.name,
         startTime: event.startTime,
         endTime: event.endTime,
@@ -32,7 +32,7 @@ const updateEvent = async (event: Prisma.EventUpdateInput, eventId: number) => {
 }
 
 const deleteEvent = async (eventId: number) => {
-    const response = await axios.delete(`http://localhost:8000/event/${eventId}`);
+    const response = await axios.delete(`travel-hub.azurewebsites.net/event/${eventId}`);
 
     return response.data;
 }
