@@ -17,10 +17,10 @@ import LocationCityIcon from '@mui/icons-material/LocationCity'
 
 interface IconItem {
   name: string
-  icon: JSX.Element
+  icon: React.ReactElement
 }
 
-function CreateItinerary (): JSX.Element {
+function CreateItinerary (): React.ReactElement {
   const [itenTitle, setItenTitle] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')

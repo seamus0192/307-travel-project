@@ -1,9 +1,10 @@
-import styles from './CreateEvent.module.css'
+// import styles from './CreateEvent.module.css'
+import React from 'react'
 
-function CreateEvent() {
-    return (
-        <div></div>
-    );
+function CreateEvent (): React.ReactElement {
+  return (
+    <div></div>
+  )
 }
 
-export default CreateEvent;
+export default CreateEvent

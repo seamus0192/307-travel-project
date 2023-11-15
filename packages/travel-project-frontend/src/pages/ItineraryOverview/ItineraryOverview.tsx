@@ -1,9 +1,9 @@
-import styles from './ItineraryOverview.module.css'
+import React from 'react'
 
-function ItineraryOverview() {
-    return (
-        <div></div>
-    );
+function ItineraryOverview (): React.ReactElement {
+  return (
+    <div></div>
+  )
 }
 
-export default ItineraryOverview;
+export default ItineraryOverview

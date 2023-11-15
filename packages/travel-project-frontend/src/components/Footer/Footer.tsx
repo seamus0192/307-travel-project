@@ -1,9 +1,10 @@
-import styles from './Footer.module.css'
+// import styles from './Footer.module.css'
+import React from 'react'
 
-function Footer() {
-    return (
-        <div></div>
-    );
+const Footer: React.FC = () => {
+  return (
+    <div></div>
+  )
 }
 
-export default Footer;
+export default Footer
