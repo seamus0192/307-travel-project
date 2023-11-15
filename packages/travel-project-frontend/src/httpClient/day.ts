@@ -2,13 +2,13 @@ import axios from "axios";
 import { Prisma } from "@prisma/client";
 
 const getDays = async (itineraryId: number) => {
-    const response = await axios.get(`http://localhost:8000/day/${itineraryId}`);
+    const response = await axios.get(`travel-hub.azurewebsites.net/day/${itineraryId}`);
 
     return response.data;
 }
 
 const createDay = async (day: Prisma.DayCreateInput, itineraryId: number) => {
-    const response = await axios.post(`http://localhost:8000/day/${itineraryId}`, {
+    const response = await axios.post(`travel-hub.azurewebsites.net/day/${itineraryId}`, {
         date: day.date,
     });
 
@@ -16,7 +16,7 @@ const createDay = async (day: Prisma.DayCreateInput, itineraryId: number) => {
 }
 
 const updateDay = async (day: Prisma.DayUpdateInput, dayId: number) => {
-    const response = await axios.put(`http://localhost:8000/day/${dayId}`, {
+    const response = await axios.put(`travel-hub.azurewebsites.net/day/${dayId}`, {
         date: day.date,
     });
 
@@ -24,7 +24,7 @@ const updateDay = async (day: Prisma.DayUpdateInput, dayId: number) => {
 }
 
 const deleeteDay = async (dayId: number) => {
-    const response = await axios.delete(`http://localhost:8000/day/${dayId}`);
+    const response = await axios.delete(`travel-hub.azurewebsites.net/day/${dayId}`);
 
     return response.data;
 }
