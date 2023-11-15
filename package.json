@@ -15,7 +15,8 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "packages/*"
+    "packages/travel-project-frontend",
+    "packages/travel-project-backend"
   ],
   "devDependencies": {
     "prisma": "^5.5.2"
