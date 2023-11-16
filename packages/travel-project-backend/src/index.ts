@@ -21,5 +21,5 @@ app.use("/day", dayRouter);
 app.use("/event", eventRouter);
 
 app.listen(process.env.PORT || port, () => {
-  console.log('REST API is listening.')
+  console.log("REST API is listening.");
 });
