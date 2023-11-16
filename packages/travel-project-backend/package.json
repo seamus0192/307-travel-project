@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "lint": "npm run lint",
+    "lint": "eslint --ext .tsx src",
     "start": "ts-node src/index.ts",
     "build": "tsc"
   },
