@@ -52,7 +52,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: release.zip
+        run: unzip release.zip
         working-directory: packages/travel-project-backend
 
       - name: 'Deploy to Azure Web App'
