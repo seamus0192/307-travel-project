@@ -1,6 +1,7 @@
 // import styles from './CreateItinerary.module.css'
 import React, { useState } from 'react'
 import { Container, TextField, Button, Box, Paper } from '@mui/material'
+import Grid from '@mui/material/Unstable_Grid2'
 import IconSelection from '../../components/IconSelection/IconSelection'
 import ForestIcon from '@mui/icons-material/Forest'
 import BeachAccessIcon from '@mui/icons-material/BeachAccess'
@@ -27,8 +28,7 @@ function CreateItinerary (): React.ReactElement {
   const [location, setLocation] = useState('')
   const [numTravelers, setNumTravelers] = useState('')
   const handleCreateButtonClick = (): void => {
-    console.log('Itinerary Title:', itenTitle)
-    // Adding logic later for connection with backend
+    console.log('Itinerary Title:', itenTitle) // Adding logic later for connection with backend
   }
 
   const icons: IconItem[] = [
@@ -55,29 +55,25 @@ function CreateItinerary (): React.ReactElement {
         marginTop={4}
       >
         <Paper elevation={6} style={{ width: '100%', padding: '2em' }}>
-          <IconSelection icons={icons} />
           <Box
             display="flex"
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
           >
-            <TextField
-              label="Itinerary Title"
-              variant="outlined"
-              value={itenTitle}
-              onChange={ (e) => { setItenTitle(e.target.value) } }
-              margin="normal"
-              fullWidth
-            />
-            <TextField
-              label="Location"
-              variant="outlined"
-              value={location}
-              onChange={ (e) => { setLocation(e.target.value) } }
-              margin="normal"
-              fullWidth
-            />
+          <Grid container spacing={2}>
+              <IconSelection icons={icons} />
+              <Grid xs={8}>
+                <TextField
+                  label="Itinerary Title"
+                  variant="outlined"
+                  value={itenTitle}
+                  onChange={ (e) => { setItenTitle(e.target.value) } }
+                  margin="normal"
+                  fullWidth
+                />
+              </Grid>
+            <Grid xs={3}>
             <TextField
               label="Start Date (DD/MM/YYYY)"
               variant="outlined"
@@ -86,6 +82,8 @@ function CreateItinerary (): React.ReactElement {
               margin="normal"
               fullWidth
             />
+            </Grid>
+            <Grid xs={3}>
             <TextField
               label="End Date (DD/MM/YYYY)"
               variant="outlined"
@@ -94,6 +92,18 @@ function CreateItinerary (): React.ReactElement {
               margin="normal"
               fullWidth
             />
+            </Grid>
+            <Grid xs={6}>
+            <TextField
+              label="Location"
+              variant="outlined"
+              value={location}
+              onChange={(e) => { setLocation(e.target.value) }}
+              margin="normal"
+              fullWidth
+            />
+            </Grid>
+            <Grid xs={12}>
             <TextField
               label="# of Travelers"
               variant="outlined"
@@ -102,9 +112,12 @@ function CreateItinerary (): React.ReactElement {
               margin="normal"
               fullWidth
             />
+            </Grid>
+            </Grid>
             <Button
               variant="contained"
               color="primary"
+              size="large"
               onClick={handleCreateButtonClick}
               sx={{
                 m: 2,
@@ -114,7 +127,7 @@ function CreateItinerary (): React.ReactElement {
                 }
               }}
             >
-              Create
+              Create Itenary!
             </Button>
           </Box>
         </Paper>
