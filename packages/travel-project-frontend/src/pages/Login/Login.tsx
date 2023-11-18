@@ -19,7 +19,7 @@ function Login (): JSX.Element {
       const response = await fetch('http://localhost:8000/user', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: email, password: password })
+        body: JSON.stringify({ username: email, password })
       })
 
       if (response.ok) {
