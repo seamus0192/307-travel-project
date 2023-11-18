@@ -23,7 +23,7 @@ const Header: React.FC = () => {
     >
       <Toolbar sx={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
-          <IconButton component={RouterLink} to="/home">
+          <IconButton component={RouterLink} to="/">
             <img
               src={VacationTrackerLogo}
               alt="Vacation Tracker"
