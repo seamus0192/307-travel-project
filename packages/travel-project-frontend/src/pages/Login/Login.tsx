@@ -14,9 +14,29 @@ function Login (): JSX.Element {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLoginButtonClick = (): void => {
-    console.log('Login attempt with email:', email)
-    // TODO: Add your login logic here
+  const handleLoginButtonClick = async (): Promise<void> => {
+    try {
+      const response = await fetch('http://localhost:8000/user', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: email, password: password })
+      })
+
+      if (response.ok) {
+        const userData = await response.json()
+        console.log('Login successful:', userData)
+        // Handle successful login here (e.g., redirect, store user data)
+      } else {
+        console.error('Login failed')
+        // Handle login failure here (e.g., show error message)
+      }
+    } catch (error) {
+      console.error('Network error:', error)
+    }
+  }
+
+  const login = (): void => {
+    handleLoginButtonClick().catch(Error) // Call the async function without awaiting it
   }
 
   return (
@@ -64,7 +84,7 @@ function Login (): JSX.Element {
           type="password"
         />
         <Button
-          onClick={handleLoginButtonClick}
+          onClick={login}
           variant="contained"
           sx={{
             mt: 2,

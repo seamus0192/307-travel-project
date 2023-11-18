@@ -9,6 +9,7 @@ import Login from './pages/Login/Login'
 import ItineraryOverview from './pages/ItineraryOverview/ItineraryOverview'
 import DayView from './pages/DayView/DayView'
 import CreateEvent from './pages/CreateEvent/CreateEvent'
+import Signup from './pages/SignUp/SignUp'
 
 import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
@@ -25,6 +26,7 @@ function App (): JSX.Element {
           <Route path="/itinerary" element={<ItineraryOverview />} />
           <Route path="/itinerary/day" element={<DayView />} />
           <Route path="/itinerary/create-event" element={<CreateEvent />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </div>
       <Footer />
