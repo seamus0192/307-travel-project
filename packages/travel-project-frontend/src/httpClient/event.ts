@@ -1,17 +1,38 @@
 import axios from "axios";
-import { type Prisma } from "@prisma/client";
+import { type Event, type Prisma } from "@prisma/client";
 
-const getEvents = async (dayId: number) => {
-  const response = await axios.get(
-    `travel-hub.azurewebsites.net/event/${dayId}`,
+const getEvents = async (dayId: number): Promise<Event[]> => {
+  const { data } = await axios.get<Event[]>(
+    `${process.env.REACT_APP_API_URL}/event/${dayId}`,
   );
 
-  return response.data;
+  return data;
 };
 
-const createEvent = async (event: Prisma.EventCreateInput, dayId: number) => {
-  const response = await axios.post(
-    `travel-hub.azurewebsites.net/event/${dayId}`,
+const createEvent = async (
+  event: Prisma.EventCreateInput,
+  dayId: number,
+): Promise<Event> => {
+  const { data } = await axios.post<Event>(
+    `${process.env.REACT_APP_API_URL}/event/${dayId}`,
+    {
+      name: event.name,
+      startTime: event.startTime,
+      endTime: event.endTime,
+      cost: event.cost,
+      link: event.link,
+    },
+  );
+
+  return data;
+};
+
+const updateEvent = async (
+  event: Prisma.EventUpdateInput,
+  eventId: number,
+): Promise<Event> => {
+  const response = await axios.put<Event>(
+    `${process.env.REACT_APP_API_URL}/event/${eventId}`,
     {
       name: event.name,
       startTime: event.startTime,
@@ -24,27 +45,12 @@ const createEvent = async (event: Prisma.EventCreateInput, dayId: number) => {
   return response.data;
 };
 
-const updateEvent = async (event: Prisma.EventUpdateInput, eventId: number) => {
-  const response = await axios.put(
-    `travel-hub.azurewebsites.net/event/${eventId}`,
-    {
-      name: event.name,
-      startTime: event.startTime,
-      endTime: event.endTime,
-      cost: event.cost,
-      link: event.link,
-    },
+const deleteEvent = async (eventId: number): Promise<Event> => {
+  const { data } = await axios.delete<Event>(
+    `${process.env.REACT_APP_API_URL}/event/${eventId}`,
   );
 
-  return response.data;
-};
-
-const deleteEvent = async (eventId: number) => {
-  const response = await axios.delete(
-    `travel-hub.azurewebsites.net/event/${eventId}`,
-  );
-
-  return response.data;
+  return data;
 };
 
 export { getEvents, createEvent, updateEvent, deleteEvent };

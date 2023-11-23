@@ -1,42 +1,48 @@
 import axios from "axios";
-import { type Prisma } from "@prisma/client";
+import { type Day, type Prisma } from "@prisma/client";
 
-const getDays = async (itineraryId: number) => {
-  const response = await axios.get(
-    `travel-hub.azurewebsites.net/day/${itineraryId}`,
+const getDays = async (itineraryId: number): Promise<Day[]> => {
+  const { data } = await axios.get<Day[]>(
+    `${process.env.REACT_APP_API_URL}/day/${itineraryId}`,
   );
 
-  return response.data;
+  return data;
 };
 
-const createDay = async (day: Prisma.DayCreateInput, itineraryId: number) => {
-  const response = await axios.post(
-    `travel-hub.azurewebsites.net/day/${itineraryId}`,
+const createDay = async (
+  day: Prisma.DayCreateInput,
+  itineraryId: number,
+): Promise<Day> => {
+  const { data } = await axios.post<Day>(
+    `${process.env.REACT_APP_API_URL}/day/${itineraryId}`,
     {
       date: day.date,
     },
   );
 
-  return response.data;
+  return data;
 };
 
-const updateDay = async (day: Prisma.DayUpdateInput, dayId: number) => {
-  const response = await axios.put(
-    `travel-hub.azurewebsites.net/day/${dayId}`,
+const updateDay = async (
+  day: Prisma.DayUpdateInput,
+  dayId: number,
+): Promise<Day> => {
+  const { data } = await axios.put<Day>(
+    `${process.env.REACT_APP_API_URL}/day/${dayId}`,
     {
       date: day.date,
     },
   );
 
-  return response.data;
+  return data;
 };
 
-const deleeteDay = async (dayId: number) => {
-  const response = await axios.delete(
-    `travel-hub.azurewebsites.net/day/${dayId}`,
+const deleeteDay = async (dayId: number): Promise<Day> => {
+  const { data } = await axios.delete<Day>(
+    `${process.env.REACT_APP_API_URL}/day/${dayId}`,
   );
 
-  return response.data;
+  return data;
 };
 
 export { getDays, createDay, updateDay, deleeteDay };

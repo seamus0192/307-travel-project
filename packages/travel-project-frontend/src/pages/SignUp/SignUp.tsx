@@ -13,7 +13,7 @@ function Signup(): JSX.Element {
       console.error("Passwords do not match");
       return;
     }
-    signupUser({ username: email, password });
+    await signupUser({ username: email, password });
   };
 
   const signup = (): void => {

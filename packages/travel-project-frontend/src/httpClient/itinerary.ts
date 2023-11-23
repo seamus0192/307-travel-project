@@ -1,48 +1,48 @@
 import axios from "axios";
-import type { Prisma } from "@prisma/client";
+import type { Itinerary, Prisma } from "@prisma/client";
 
-const getItineraries = async (userId: number): Promise<any> => {
-  const response = await axios.get(
-    `travel-hub.azurewebsites.net/itinerary/${userId}`,
+const getItineraries = async (userId: number): Promise<Itinerary[]> => {
+  const { data } = await axios.get<Itinerary[]>(
+    `${process.env.REACT_APP_API_URL}/itinerary/${userId}`,
   );
 
-  return response.data;
+  return data;
 };
 
 const createItinerary = async (
   itinerary: Prisma.ItineraryCreateInput,
   userId: number,
-): Promise<any> => {
-  const response = await axios.post(
-    `travel-hub.azurewebsites.net/itinerary/${userId}`,
+): Promise<Itinerary> => {
+  const { data } = await axios.post<Itinerary>(
+    `${process.env.REACT_APP_API_URL}/itinerary/${userId}`,
     {
       name: itinerary.name,
     },
   );
 
-  return response.data;
+  return data;
 };
 
 const updateItinerary = async (
   itinerary: Prisma.ItineraryUpdateInput,
   itineraryId: number,
-): Promise<any> => {
-  const response = await axios.put(
-    `travel-hub.azurewebsites.net/itinerary/${itineraryId}`,
+): Promise<Itinerary> => {
+  const { data } = await axios.put<Itinerary>(
+    `${process.env.REACT_APP_API_URL}/itinerary/${itineraryId}`,
     {
       name: itinerary.name,
     },
   );
 
-  return response.data;
+  return data;
 };
 
-const deleteItinerary = async (itineraryId: number): Promise<any> => {
-  const response = await axios.delete(
-    `travel-hub.azurewebsites.net/itinerary/${itineraryId}`,
+const deleteItinerary = async (itineraryId: number): Promise<Itinerary> => {
+  const { data } = await axios.delete<Itinerary>(
+    `${process.env.REACT_APP_API_URL}/itinerary/${itineraryId}`,
   );
 
-  return response.data;
+  return data;
 };
 
 export { getItineraries, createItinerary, updateItinerary, deleteItinerary };
