@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 import {
   AppBar,
   Toolbar,
   Button,
   Typography,
   IconButton,
-  Box
-} from '@mui/material'
-import { Link as RouterLink } from 'react-router-dom'
-import VacationTrackerLogo from '../../assets/vacation_tracker.jpg'
+  Box,
+} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import VacationTrackerLogo from "../../assets/vacation_tracker.jpg";
 
 const Header: React.FC = () => {
   return (
@@ -18,11 +18,11 @@ const Header: React.FC = () => {
       elevation={0}
       sx={{
         borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
-        overflow: 'hidden'
+        overflow: "hidden",
       }}
     >
-      <Toolbar sx={{ flexWrap: 'wrap', justifyContent: 'space-between' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
+      <Toolbar sx={{ flexWrap: "wrap", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
           <IconButton component={RouterLink} to="/">
             <img
               src={VacationTrackerLogo}
@@ -36,25 +36,25 @@ const Header: React.FC = () => {
             color="inherit"
             noWrap
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              fontFamily: '\'Roboto\', sans-serif',
+              display: "flex",
+              alignItems: "center",
+              fontFamily: "'Roboto', sans-serif",
               fontWeight: 500,
-              marginLeft: 1
+              marginLeft: 1,
             }}
           >
             Vacation Tracker
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button
             variant="contained"
             sx={{
-              backgroundColor: '#7139a8',
-              ':hover': {
-                bgcolor: '#965ad3'
+              backgroundColor: "#7139a8",
+              ":hover": {
+                bgcolor: "#965ad3",
               },
-              mx: 1
+              mx: 1,
             }}
             component={RouterLink}
             to="/login"
@@ -64,11 +64,11 @@ const Header: React.FC = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: '#7139a8',
-              ':hover': {
-                bgcolor: '#965ad3'
+              backgroundColor: "#7139a8",
+              ":hover": {
+                bgcolor: "#965ad3",
               },
-              mx: 1
+              mx: 1,
             }}
             component={RouterLink}
             to="/create-itinerary"
@@ -78,11 +78,11 @@ const Header: React.FC = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: '#7139a8',
-              ':hover': {
-                bgcolor: '#965ad3'
+              backgroundColor: "#7139a8",
+              ":hover": {
+                bgcolor: "#965ad3",
               },
-              mx: 1
+              mx: 1,
             }}
             component={RouterLink}
             to="/itinerary/day"
@@ -92,7 +92,7 @@ const Header: React.FC = () => {
         </Box>
       </Toolbar>
     </AppBar>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

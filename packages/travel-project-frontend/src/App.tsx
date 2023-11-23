@@ -1,20 +1,20 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import './App.css'
+import "./App.css";
 
-import CreateItinerary from './pages/CreateIntinerary/CreateItinerary'
-import HomePage from './pages/HomePage/HomePage'
-import Login from './pages/Login/Login'
-import ItineraryOverview from './pages/ItineraryOverview/ItineraryOverview'
-import DayView from './pages/DayView/DayView'
-import CreateEvent from './pages/CreateEvent/CreateEvent'
-import Signup from './pages/SignUp/SignUp'
+import CreateItinerary from "./pages/CreateIntinerary/CreateItinerary";
+import HomePage from "./pages/HomePage/HomePage";
+import Login from "./pages/Login/Login";
+import ItineraryOverview from "./pages/ItineraryOverview/ItineraryOverview";
+import DayView from "./pages/DayView/DayView";
+import CreateEvent from "./pages/CreateEvent/CreateEvent";
+import Signup from "./pages/SignUp/SignUp";
 
-import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
-function App (): JSX.Element {
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Header />
@@ -31,7 +31,7 @@ function App (): JSX.Element {
       </div>
       <Footer />
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

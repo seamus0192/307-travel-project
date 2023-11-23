@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-function ItineraryOverview (): React.ReactElement {
-  return (
-    <div></div>
-  )
+function ItineraryOverview(): React.ReactElement {
+  return <div></div>;
 }
 
-export default ItineraryOverview
+export default ItineraryOverview;
