@@ -17,7 +17,7 @@ model User {
   password    String
   itineraries Itinerary[]
 
-  @@map("user")
+  @@map("users")
 }
 
 model Itinerary {
@@ -25,10 +25,11 @@ model Itinerary {
   name   String
   user   User   @relation(fields: [userId], references: [id])
   userId Int
+  icon   String
   days   Day[]
 
   @@index([userId])
-  @@map("itinerary")
+  @@map("itineraries")
 }
 
 model Day {
@@ -36,10 +37,11 @@ model Day {
   date        DateTime
   itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
   itineraryId Int
+  icon        String
   events      Event[]
 
   @@index([itineraryId])
-  @@map("day")
+  @@map("days")
 }
 
 model Event {
@@ -53,5 +55,5 @@ model Event {
   dayId     Int
 
   @@index([dayId])
-  @@map("event")
+  @@map("events")
 }
