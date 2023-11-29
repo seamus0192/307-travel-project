@@ -10,8 +10,8 @@ userRouter.post("/", async (req, res) => {
 
   const user = await prisma.user.create({
     data: {
-      username: username,
-      password: password,
+      username,
+      password,
     },
   });
 
@@ -24,8 +24,8 @@ userRouter.put("/", async (req, res) => {
 
   const user = await prisma.user.findUniqueOrThrow({
     where: {
-      username: username,
-      password: password,
+      username,
+      password,
     },
   });
 

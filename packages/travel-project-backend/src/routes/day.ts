@@ -18,12 +18,13 @@ dayRouter.get("/:itineraryId", async (req, res) => {
 
 dayRouter.post("/:itineraryId", async (req, res) => {
   const { itineraryId } = req.params;
-  const { date } = req.body;
+  const { date, icon } = req.body;
 
   const newDay = await prisma.day.create({
     data: {
-      date: date,
+      date,
       itineraryId: parseInt(itineraryId),
+      icon,
     },
   });
 
@@ -31,14 +32,16 @@ dayRouter.post("/:itineraryId", async (req, res) => {
 });
 
 dayRouter.put("/:id", async (req, res) => {
-  const { date, id } = req.body;
+  const { id } = req.params;
+  const { date, icon } = req.body;
 
   const updatedDay = await prisma.day.update({
     where: {
       id: parseInt(id),
     },
     data: {
-      date: date,
+      date,
+      icon,
     },
   });
 

@@ -17,6 +17,7 @@ const createDay = async (
     `${process.env.REACT_APP_API_URL}/day/${itineraryId}`,
     {
       date: day.date,
+      icon: day.icon,
     },
   );
 
@@ -31,13 +32,14 @@ const updateDay = async (
     `${process.env.REACT_APP_API_URL}/day/${dayId}`,
     {
       date: day.date,
+      icon: day.icon,
     },
   );
 
   return data;
 };
 
-const deleeteDay = async (dayId: number): Promise<Day> => {
+const deleteDay = async (dayId: number): Promise<Day> => {
   const { data } = await axios.delete<Day>(
     `${process.env.REACT_APP_API_URL}/day/${dayId}`,
   );
@@ -45,4 +47,4 @@ const deleeteDay = async (dayId: number): Promise<Day> => {
   return data;
 };
 
-export { getDays, createDay, updateDay, deleeteDay };
+export { getDays, createDay, updateDay, deleteDay };

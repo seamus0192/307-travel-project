@@ -22,11 +22,11 @@ eventRouter.post("/:dayId", async (req, res) => {
 
   const newEvent = await prisma.event.create({
     data: {
-      name: name,
-      startTime: startTime,
-      endTime: endTime,
-      cost: cost,
-      link: link,
+      name,
+      startTime,
+      endTime,
+      cost,
+      link,
       dayId: parseInt(dayId),
     },
   });
@@ -43,11 +43,11 @@ eventRouter.put("/:id", async (req, res) => {
       id: parseInt(id),
     },
     data: {
-      name: name,
-      startTime: startTime,
-      endTime: endTime,
-      cost: cost,
-      link: link,
+      name,
+      startTime,
+      endTime,
+      cost,
+      link,
     },
   });
 

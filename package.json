@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/App.tsx",
   "scripts": {
-    "setup": "npm i && cp envs/dev.env .env && npx prisma generate && cp packages/travel-project-frontend/envs/dev.env packages/travel-project-frontend/.env",
+    "setup": "npm i && cp envs/dev.env .env && npx prisma generate && cd packages/travel-project-frontend && npm run setup && cd ../travel-project-backend && npm run setup",
     "lint": "cd packages/travel-project-frontend && npm run lint && cd ../travel-project-backend && npm run lint",
     "migrate": "npm run setup && npx prisma db push",
     "format": "npx prisma format",

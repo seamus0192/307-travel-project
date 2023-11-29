@@ -18,12 +18,13 @@ itineraryRouter.get("/:userId", async (req, res) => {
 
 itineraryRouter.post("/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { name } = req.body;
+  const { name, icon } = req.body;
 
   const newItinerary = await prisma.itinerary.create({
     data: {
-      name: name,
+      name,
       userId: parseInt(userId),
+      icon,
     },
   });
 
@@ -31,14 +32,16 @@ itineraryRouter.post("/:userId", async (req, res) => {
 });
 
 itineraryRouter.put("/:id", async (req, res) => {
-  const { name, id } = req.body;
+  const { id } = req.params;
+  const { name, icon } = req.body;
 
   const updatedItinerary = await prisma.itinerary.update({
     where: {
-      id: id,
+      id: parseInt(id),
     },
     data: {
-      name: name,
+      name,
+      icon,
     },
   });
 

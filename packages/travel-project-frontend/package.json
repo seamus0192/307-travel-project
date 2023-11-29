@@ -36,6 +36,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
+    "setup": "cp envs/dev.env .env",
     "lint": "eslint . --fix",
     "start": "react-scripts start",
     "build": "react-scripts build",

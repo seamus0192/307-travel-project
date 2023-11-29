@@ -17,6 +17,7 @@ const createItinerary = async (
     `${process.env.REACT_APP_API_URL}/itinerary/${userId}`,
     {
       name: itinerary.name,
+      icon: itinerary.icon,
     },
   );
 
@@ -31,6 +32,7 @@ const updateItinerary = async (
     `${process.env.REACT_APP_API_URL}/itinerary/${itineraryId}`,
     {
       name: itinerary.name,
+      icon: itinerary.icon,
     },
   );
 

@@ -4,9 +4,12 @@ import userRouter from "./routes/user";
 import eventRouter from "./routes/event";
 import dayRouter from "./routes/day";
 import itineraryRouter from "./routes/itinerary";
+import dotenv from "dotenv";
+
+dotenv.config(); // Load environment variables from .env file
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());
@@ -20,6 +23,6 @@ app.use("/itinerary", itineraryRouter);
 app.use("/day", dayRouter);
 app.use("/event", eventRouter);
 
-app.listen(process.env.PORT || port, () => {
-  console.log("REST API is listening on http://localhost:8000");
+app.listen(port, () => {
+  console.log(`REST API is listening on ${port}`);
 });
