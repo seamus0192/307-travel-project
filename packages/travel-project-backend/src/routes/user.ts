@@ -1,5 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { generateAccessToken } from "../auth";
 
 const userRouter = express.Router();
 const prisma = new PrismaClient();
@@ -8,10 +9,13 @@ const prisma = new PrismaClient();
 userRouter.post("/", async (req, res) => {
   const { username, password } = req.body;
 
+  const token = await generateAccessToken(username);
+
   const user = await prisma.user.create({
     data: {
       username,
       password,
+      token,
     },
   });
 
@@ -22,10 +26,21 @@ userRouter.post("/", async (req, res) => {
 userRouter.put("/", async (req, res) => {
   const { username, password } = req.body;
 
-  const user = await prisma.user.findUniqueOrThrow({
+  await prisma.user.findUniqueOrThrow({
     where: {
       username,
       password,
+    },
+  });
+
+  const token = await generateAccessToken(username);
+
+  const user = await prisma.user.update({
+    where: {
+      username,
+    },
+    data: {
+      token,
     },
   });
 

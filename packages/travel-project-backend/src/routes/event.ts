@@ -1,7 +1,9 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { authorizeRequest } from "../auth";
 
 const eventRouter = express.Router();
+eventRouter.use(authorizeRequest);
 const prisma = new PrismaClient();
 
 eventRouter.get("/:dayId", async (req, res) => {

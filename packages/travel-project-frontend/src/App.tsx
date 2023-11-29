@@ -13,8 +13,10 @@ import Signup from "./pages/SignUp/SignUp";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { setAuthToken } from "./httpClient/axiosConfig";
 
 function App(): JSX.Element {
+  setAuthToken();
   return (
     <BrowserRouter>
       <Header />

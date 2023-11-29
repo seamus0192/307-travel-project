@@ -1,7 +1,9 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { authorizeRequest } from "../auth";
 
 const dayRouter = express.Router();
+dayRouter.use(authorizeRequest);
 const prisma = new PrismaClient();
 
 dayRouter.get("/:itineraryId", async (req, res) => {

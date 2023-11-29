@@ -1,7 +1,9 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { authorizeRequest } from "../auth";
 
 const itineraryRouter = express.Router();
+itineraryRouter.use(authorizeRequest);
 const prisma = new PrismaClient();
 
 itineraryRouter.get("/:userId", async (req, res) => {
