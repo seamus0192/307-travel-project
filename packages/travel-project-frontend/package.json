@@ -40,6 +40,7 @@
     "setup": "cp envs/dev.env .env",
     "lint": "eslint . --fix",
     "start": "react-scripts start",
+    "prebuild": "cp ../../prisma/schema.prisma schema.prisma && prisma generate && cp envs/prod.env .env",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
