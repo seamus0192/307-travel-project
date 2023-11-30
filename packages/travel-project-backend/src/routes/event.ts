@@ -8,64 +8,72 @@ const prisma = new PrismaClient();
 
 eventRouter.get("/:dayId", async (req, res) => {
   const { dayId } = req.params;
-
-  const events = await prisma.event.findMany({
-    where: {
-      dayId: parseInt(dayId),
-    },
-  });
-
-  res.json(events);
+  try {
+    const events = await prisma.event.findMany({
+      where: {
+        dayId: parseInt(dayId),
+      },
+    });
+    res.json(events);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 eventRouter.post("/:dayId", async (req, res) => {
   const { dayId } = req.params;
   const { name, startTime, endTime, cost, link } = req.body;
-
-  const newEvent = await prisma.event.create({
-    data: {
-      name,
-      startTime,
-      endTime,
-      cost,
-      link,
-      dayId: parseInt(dayId),
-    },
-  });
-
-  res.json(newEvent);
+  try {
+    const newEvent = await prisma.event.create({
+      data: {
+        name,
+        startTime,
+        endTime,
+        cost,
+        link,
+        dayId: parseInt(dayId),
+      },
+    });
+    res.json(newEvent);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 eventRouter.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { name, startTime, endTime, cost, link } = req.body;
-
-  const updatedEvent = await prisma.event.update({
-    where: {
-      id: parseInt(id),
-    },
-    data: {
-      name,
-      startTime,
-      endTime,
-      cost,
-      link,
-    },
-  });
-
-  res.json(updatedEvent);
+  try {
+    const updatedEvent = await prisma.event.update({
+      where: {
+        id: parseInt(id),
+      },
+      data: {
+        name,
+        startTime,
+        endTime,
+        cost,
+        link,
+      },
+    });
+    res.json(updatedEvent);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 eventRouter.delete("/:id", async (req, res) => {
   const { id } = req.params;
-
-  const deletedEvent = await prisma.event.delete({
-    where: {
-      id: parseInt(id),
-    },
-  });
-
-  res.json(deletedEvent);
+  try {
+    const deletedEvent = await prisma.event.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+    res.json(deletedEvent);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export default eventRouter;

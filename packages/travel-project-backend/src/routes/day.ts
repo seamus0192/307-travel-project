@@ -8,58 +8,66 @@ const prisma = new PrismaClient();
 
 dayRouter.get("/:itineraryId", async (req, res) => {
   const { itineraryId } = req.params;
-
-  const days = await prisma.day.findMany({
-    where: {
-      itineraryId: parseInt(itineraryId),
-    },
-  });
-
-  res.json(days);
+  try {
+    const days = await prisma.day.findMany({
+      where: {
+        itineraryId: parseInt(itineraryId),
+      },
+    });
+    res.json(days);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 dayRouter.post("/:itineraryId", async (req, res) => {
   const { itineraryId } = req.params;
   const { date, icon } = req.body;
-
-  const newDay = await prisma.day.create({
-    data: {
-      date,
-      itineraryId: parseInt(itineraryId),
-      icon,
-    },
-  });
-
-  res.json(newDay);
+  try {
+    const newDay = await prisma.day.create({
+      data: {
+        date,
+        itineraryId: parseInt(itineraryId),
+        icon,
+      },
+    });
+    res.json(newDay);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 dayRouter.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { date, icon } = req.body;
-
-  const updatedDay = await prisma.day.update({
-    where: {
-      id: parseInt(id),
-    },
-    data: {
-      date,
-      icon,
-    },
-  });
-
-  res.json(updatedDay);
+  try {
+    const updatedDay = await prisma.day.update({
+      where: {
+        id: parseInt(id),
+      },
+      data: {
+        date,
+        icon,
+      },
+    });
+    res.json(updatedDay);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 dayRouter.delete("/:id", async (req, res) => {
   const { id } = req.params;
-
-  const deletedDay = await prisma.day.delete({
-    where: {
-      id: parseInt(id),
-    },
-  });
-
-  res.json(deletedDay);
+  try {
+    const deletedDay = await prisma.day.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+    res.json(deletedDay);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export default dayRouter;
