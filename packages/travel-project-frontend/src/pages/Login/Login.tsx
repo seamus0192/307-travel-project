@@ -1,18 +1,14 @@
 // import styles from './Login.module.css'
 import React, { useState } from "react";
 import { TextField, Button, Paper, Box, Typography, Link } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-
-/*
-
-ALL OF THIS CAN BE DELETED,
-Just thought it would be funny to have for now rather than an empty page
-
-*/
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login(): JSX.Element {
+  const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const nav = useNavigate();
 
   const handleLoginButtonClick = async (): Promise<void> => {
     try {
@@ -25,13 +21,25 @@ function Login(): JSX.Element {
       if (response.ok) {
         const userData = await response.json();
         console.log("Login successful:", userData);
-        // Handle successful login here (e.g., redirect, store user data)
+
+        const token = userData.token;
+        localStorage.setItem("authToken", token);
+        setAuthToken(token);
+        nav("/");
       } else {
+        setError("Incorrect username or password");
         console.error("Login failed");
-        // Handle login failure here (e.g., show error message)
       }
     } catch (error) {
       console.error("Network error:", error);
+    }
+  };
+
+  const setAuthToken = (token: string): void => {
+    if (token != null) {
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common.Authorization;
     }
   };
 
@@ -87,6 +95,7 @@ function Login(): JSX.Element {
           margin="normal"
           type="password"
         />
+        {error != null && <div className="error-message">{error}</div>}
         <Button
           onClick={login}
           variant="contained"
