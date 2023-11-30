@@ -8,43 +8,44 @@ const prisma = new PrismaClient();
 // signup
 userRouter.post("/", async (req, res) => {
   const { username, password } = req.body;
-
-  const token = await generateAccessToken(username);
-
-  const user = await prisma.user.create({
-    data: {
-      username,
-      password,
-      token,
-    },
-  });
-
-  res.json(user);
+  try {
+    const token = await generateAccessToken(username);
+    const user = await prisma.user.create({
+      data: {
+        username,
+        password,
+        token,
+      },
+    });
+    res.json(user.token);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 // login
 userRouter.put("/", async (req, res) => {
   const { username, password } = req.body;
-
-  await prisma.user.findUniqueOrThrow({
-    where: {
-      username,
-      password,
-    },
-  });
-
-  const token = await generateAccessToken(username);
-
-  const user = await prisma.user.update({
-    where: {
-      username,
-    },
-    data: {
-      token,
-    },
-  });
-
-  res.json(user);
+  try {
+    await prisma.user.findUniqueOrThrow({
+      where: {
+        username,
+        password,
+      },
+    });
+    const token = await generateAccessToken(username);
+    const user = await prisma.user.update({
+      where: {
+        username,
+      },
+      data: {
+        token,
+      },
+    });
+    res.json(user.token);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export default userRouter;
