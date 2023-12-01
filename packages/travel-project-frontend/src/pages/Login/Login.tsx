@@ -4,8 +4,6 @@ import { TextField, Button, Paper, Box, Typography, Link } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { setAuthToken } from "../../httpClient/axiosConfig";
 import { loginUser } from "../../httpClient/user";
-import axios from "axios";
-import {Prisma} from "@prisma/client";
 
 function Login(): JSX.Element {
   const [error, setError] = useState("");
@@ -15,10 +13,9 @@ function Login(): JSX.Element {
 
   const handleLoginButtonClick = async (): Promise<void> => {
     try {
-      const response = await loginUser({ username: email, password: password })
+      const response = await loginUser({ username: email, password: password });
 
       console.log("Login successful:", response);
-
       localStorage.setItem("token", response);
       setAuthToken();
       nav("/");
