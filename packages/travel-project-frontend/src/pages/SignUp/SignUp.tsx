@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import { TextField, Button, Paper, Box, Typography, Link } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { signupUser } from "../../httpClient/user";
+import { setAuthToken } from "../../httpClient/axiosConfig";
 
 function Signup(): JSX.Element {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const nav = useNavigate();
 
   const handleSignupButtonClick = async (): Promise<void> => {
     if (password !== confirmPassword) {
       console.error("Passwords do not match");
       return;
     }
-    await signupUser({ username: email, password });
+    try {
+      const response = await signupUser({ username: email, password });
+      console.log("Signup successful:", response);
+      localStorage.setItem("token", response.token ?? "");
+      localStorage.setItem("userId", response.id.toString());
+      setAuthToken();
+      nav("/");
+    } catch {
+      console.error("Signup failed");
+    }
   };
 
   const signup = (): void => {

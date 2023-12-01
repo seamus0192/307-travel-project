@@ -13,10 +13,11 @@ function Login(): JSX.Element {
 
   const handleLoginButtonClick = async (): Promise<void> => {
     try {
-      const response = await loginUser({ username: email, password: password });
+      const response = await loginUser({ username: email, password });
 
       console.log("Login successful:", response);
-      localStorage.setItem("token", response);
+      localStorage.setItem("token", response.token ?? "");
+      localStorage.setItem("userId", response.id.toString());
       setAuthToken();
       nav("/");
     } catch (error) {

@@ -17,7 +17,7 @@ userRouter.post("/", async (req, res) => {
         token,
       },
     });
-    res.json(user.token);
+    res.json({ token: user.token, id: user.id });
   } catch (error) {
     console.log(error);
   }
@@ -42,7 +42,7 @@ userRouter.put("/", async (req, res) => {
         token,
       },
     });
-    res.json(user.token);
+    res.json({ token: user.token, id: user.id });
   } catch (error) {
     console.log(error);
   }
