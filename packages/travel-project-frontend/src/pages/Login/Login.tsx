@@ -2,7 +2,10 @@
 import React, { useState } from "react";
 import { TextField, Button, Paper, Box, Typography, Link } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { setAuthToken } from "../../httpClient/axiosConfig";
+import { loginUser } from "../../httpClient/user";
 import axios from "axios";
+import {Prisma} from "@prisma/client";
 
 function Login(): JSX.Element {
   const [error, setError] = useState("");
@@ -12,34 +15,17 @@ function Login(): JSX.Element {
 
   const handleLoginButtonClick = async (): Promise<void> => {
     try {
-      const response = await fetch("http://localhost:8000/user", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: email, password }),
-      });
+      const response = await loginUser({ username: email, password: password })
 
-      if (response.ok) {
-        const userData = await response.json();
-        console.log("Login successful:", userData);
+      console.log("Login successful:", response);
 
-        const token = userData.token;
-        localStorage.setItem("authToken", token);
-        setAuthToken(token);
-        nav("/");
-      } else {
-        setError("Incorrect username or password");
-        console.error("Login failed");
-      }
+      localStorage.setItem("token", response);
+      setAuthToken();
+      nav("/");
     } catch (error) {
+      setError("Incorrect username or password");
+      console.error("Login failed");
       console.error("Network error:", error);
-    }
-  };
-
-  const setAuthToken = (token: string): void => {
-    if (token != null) {
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    } else {
-      delete axios.defaults.headers.common.Authorization;
     }
   };
 
