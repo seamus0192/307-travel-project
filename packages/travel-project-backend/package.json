@@ -5,8 +5,11 @@
   "scripts": {
     "setup": "cp envs/dev.env .env",
     "lint": "eslint . --fix",
-    "start": "ts-node src/index.ts",
-    "build": "tsc"
+    "serve": "ts-node src/index.ts",
+    "prebuild": "cp ../../prisma/schema.prisma schema.prisma && npx prisma generate && cp envs/prod.env .env",
+    "build": "tsc",
+    "start": "npm run build && node dist/index.js",
+    "test": "echo \"placeholder test\""
   },
   "author": "Seamus O'Malley",
   "license": "ISC",

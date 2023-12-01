@@ -3,6 +3,10 @@ name: CI Testing
 on:
   push:
     branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,8 +24,11 @@ jobs:
       - name: Lint frontend
         run: npm run -w packages/travel-project-frontend lint
 
+      - name: Build frontend
+        run: npm run -w packages/travel-project-frontend build
+
       - name: Lint backend
         run: npm run -w packages/travel-project-backend lint
 
-      - name: Build project
-        run: npm run -w packages/travel-project-frontend build
+      - name: Build backend
+        run:  npm run -w packages/travel-project-backend build

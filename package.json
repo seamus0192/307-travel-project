@@ -10,7 +10,7 @@
     "format": "npx prisma format",
     "validate": "npx prisma validate",
     "start": "cd packages/travel-project-frontend && npm start",
-    "serve": "cd packages/travel-project-backend && npm start",
+    "serve": "cd packages/travel-project-backend && npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -19,10 +19,10 @@
     "packages/*"
   ],
   "devDependencies": {
-    "prisma": "^5.5.2"
+    "prisma": "^5.6.0"
   },
   "dependencies": {
-    "@prisma/client": "^5.5.2",
+    "@prisma/client": "^5.6.0",
     "react-router-dom": "^6.18.0"
   }
 }
