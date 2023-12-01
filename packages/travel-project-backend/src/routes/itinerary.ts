@@ -22,13 +22,20 @@ itineraryRouter.get("/:userId", async (req, res) => {
 
 itineraryRouter.post("/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { name, icon } = req.body;
+  const { name, icon, startDate, endDate, travelerCount } = req.body;
   try {
     const newItinerary = await prisma.itinerary.create({
       data: {
         name,
-        userId: parseInt(userId),
         icon,
+        startDate,
+        endDate,
+        travelerCount,
+        user: {
+          connect: {
+            id: parseInt(userId),
+          },
+        },
       },
     });
     res.json(newItinerary);
@@ -39,7 +46,7 @@ itineraryRouter.post("/:userId", async (req, res) => {
 
 itineraryRouter.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, icon } = req.body;
+  const { name, icon, startDate, endDate, travelerCount } = req.body;
   try {
     const updatedItinerary = await prisma.itinerary.update({
       where: {
@@ -48,6 +55,9 @@ itineraryRouter.put("/:id", async (req, res) => {
       data: {
         name,
         icon,
+        startDate,
+        endDate,
+        travelerCount,
       },
     });
     res.json(updatedItinerary);

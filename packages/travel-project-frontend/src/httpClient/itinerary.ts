@@ -10,7 +10,7 @@ const getItineraries = async (userId: number): Promise<Itinerary[]> => {
 };
 
 const createItinerary = async (
-  itinerary: Prisma.ItineraryCreateInput,
+  itinerary: Omit<Prisma.ItineraryCreateInput, "user">,
   userId: number,
 ): Promise<Itinerary> => {
   const { data } = await axios.post<Itinerary>(

@@ -31,7 +31,11 @@ eventRouter.post("/:dayId", async (req, res) => {
         endTime,
         cost,
         link,
-        dayId: parseInt(dayId),
+        day: {
+          connect: {
+            id: parseInt(dayId),
+          },
+        },
       },
     });
     res.json(newEvent);

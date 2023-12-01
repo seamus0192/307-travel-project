@@ -27,8 +27,12 @@ dayRouter.post("/:itineraryId", async (req, res) => {
     const newDay = await prisma.day.create({
       data: {
         date,
-        itineraryId: parseInt(itineraryId),
         icon,
+        itinerary: {
+          connect: {
+            id: parseInt(itineraryId),
+          },
+        },
       },
     });
     res.json(newDay);

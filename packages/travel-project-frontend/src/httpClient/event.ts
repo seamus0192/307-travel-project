@@ -10,7 +10,7 @@ const getEvents = async (dayId: number): Promise<Event[]> => {
 };
 
 const createEvent = async (
-  event: Prisma.EventCreateInput,
+  event: Omit<Prisma.EventCreateInput, "day">,
   dayId: number,
 ): Promise<Event> => {
   const { data } = await axios.post<Event>(

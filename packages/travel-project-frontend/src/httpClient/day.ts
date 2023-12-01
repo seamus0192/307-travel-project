@@ -10,7 +10,7 @@ const getDays = async (itineraryId: number): Promise<Day[]> => {
 };
 
 const createDay = async (
-  day: Prisma.DayCreateInput,
+  day: Omit<Prisma.DayCreateInput, "itinerary">,
   itineraryId: number,
 ): Promise<Day> => {
   const { data } = await axios.post<Day>(
