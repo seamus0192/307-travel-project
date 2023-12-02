@@ -25,8 +25,11 @@ function App(): JSX.Element {
           <Route path="/" element={<HomePage />} />
           <Route path="/create-itinerary" element={<CreateItinerary />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/itinerary" element={<ItineraryOverview />} />
-          <Route path="/itinerary/day" element={<DayView />} />
+          <Route
+            path="/itinerary/:itineraryId"
+            element={<ItineraryOverview />}
+          />
+          <Route path="/day/:dayId" element={<DayView />} />
           <Route path="/itinerary/create-event" element={<CreateEvent />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
