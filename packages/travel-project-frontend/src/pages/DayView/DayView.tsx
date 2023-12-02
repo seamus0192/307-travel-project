@@ -10,17 +10,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { getEvents } from "../../httpClient/event";
 import { useEffect, useState } from "react";
-
-// Dummy Data for cards, change to fit DB Schema later
-interface Event {
-  id: number;
-  name: string;
-  startTime: number; // Assuming this is a timestamp
-  endTime: number; // Assuming this is a timestamp
-  cost: number;
-  link: string | null;
-  dayId: number;
-}
+import { type Event } from "@prisma/client";
 
 // DayCard component
 const BookingCard: React.FC<Event> = ({

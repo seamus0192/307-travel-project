@@ -10,13 +10,7 @@ import {
   Button,
   Container,
 } from "@mui/material";
-
-interface Day {
-  id: number;
-  date: string;
-  itineraryId: number;
-  icon: string;
-}
+import { type Day } from "@prisma/client";
 
 const ItineraryOverview: React.FC = () => {
   const [days, setDays] = useState<Day[]>([]);
@@ -34,7 +28,7 @@ const ItineraryOverview: React.FC = () => {
             const formattedDays = fetchedDays.map((day) => ({
               ...day,
               // Convert day.date to a Date object and then to an ISO string
-              date: new Date(day.date).toISOString(),
+              date: day.date,
             }));
             setDays(formattedDays);
           } else {
