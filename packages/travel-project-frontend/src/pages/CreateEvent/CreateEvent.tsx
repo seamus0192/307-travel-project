@@ -94,7 +94,9 @@ function CreateEvent(): React.ReactElement {
               </Grid>
               <Grid xs={12}>
                 <FormControl fullWidth required>
-                  <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                  <InputLabel id="demo-simple-select-label">
+                    EventType
+                  </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
