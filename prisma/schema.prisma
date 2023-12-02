@@ -31,6 +31,7 @@ model Itinerary {
   startDate     DateTime
   endDate       DateTime
   travelerCount Int
+  location      String
   days          Day[]
 
   @@index([userId])

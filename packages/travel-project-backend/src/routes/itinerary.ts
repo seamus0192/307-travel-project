@@ -22,7 +22,7 @@ itineraryRouter.get("/:userId", async (req, res) => {
 
 itineraryRouter.post("/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { name, icon, startDate, endDate, travelerCount } = req.body;
+  const { name, icon, startDate, endDate, travelerCount, location } = req.body;
   try {
     const newItinerary = await prisma.itinerary.create({
       data: {
@@ -31,6 +31,7 @@ itineraryRouter.post("/:userId", async (req, res) => {
         startDate,
         endDate,
         travelerCount,
+        location,
         user: {
           connect: {
             id: parseInt(userId),
