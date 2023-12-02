@@ -22,56 +22,23 @@ import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import AnchorIcon from "@mui/icons-material/Anchor";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
+import PeopleIcon from "@mui/icons-material/People";
 import { Link as RouterLink } from "react-router-dom";
+import { getItineraries } from "../../httpClient/itinerary";
 
 interface Itinerary {
   id: number;
-  username: string;
   name: string;
   icon?: string; // Optional icon
-  startDate: string; // Using string to represent dates, can be adjusted based on how dates are handled
-  endDate: string;
+  startDate: Date; // Using string to represent dates, can be adjusted based on how dates are handled
+  endDate: Date;
+  travelerCount: number;
 }
 
 interface IconItem {
   name: string;
   icon: React.ReactElement;
 }
-
-const exampleItineraries: Itinerary[] = [
-  {
-    id: 1,
-    username: "Traveler1",
-    name: "Kubiaks magical adventure",
-    icon: "Hike",
-    startDate: "2023-07-01",
-    endDate: "2023-07-10",
-  },
-  {
-    id: 2,
-    username: "Globetrotter2",
-    name: "Beachside Relaxation",
-    icon: "Hike",
-    startDate: "2023-08-15",
-    endDate: "2023-08-22",
-  },
-  {
-    id: 3,
-    username: "Explorer3",
-    name: "Historical Europe Tour",
-    icon: "Hike",
-    startDate: "2023-09-05",
-    endDate: "2023-09-20",
-  },
-  {
-    id: 4,
-    username: "Wanderer4",
-    name: "Safari Adventure",
-    icon: "Beach",
-    startDate: "2023-10-01",
-    endDate: "2023-10-12",
-  },
-];
 
 function HomePage(): JSX.Element {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
@@ -130,9 +97,14 @@ function HomePage(): JSX.Element {
     },
   ];
 
-  useEffect(() => {
-    setItineraries(exampleItineraries);
-    // getItineraries(userId).then(data => { setItineraries(data) }).catch(error => { console.error(error) })
+  useEffect((): void => {
+    getItineraries(localStorage.userId as number)
+      .then((data) => {
+        setItineraries(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const handleSearchChange = (event: {
@@ -197,20 +169,32 @@ function HomePage(): JSX.Element {
               </Grid>
               <Grid item xs>
                 <Typography variant="h5">{itinerary.name}</Typography>
-                <Typography variant="body2">{itinerary.username}</Typography>
+                <Grid>
+                  <Grid container alignItems="center" spacing={1}>
+                    <Grid item>
+                      <PeopleIcon />
+                    </Grid>
+                    <Grid item>
+                      <Typography variant="body2">
+                        {itinerary.travelerCount}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
               </Grid>
               <Grid item>
                 <Typography
                   variant="body1"
                   style={{ padding: "0 1rem 0 1rem" }}
                 >
-                  Start: {itinerary.startDate}
+                  Start Date: {itinerary.startDate.toString().substring(0, 10)}
                 </Typography>
                 <Typography
                   variant="body1"
                   style={{ padding: "0 1rem 0 1rem" }}
                 >
-                  End: {itinerary.endDate}
+                  End Date: &nbsp;
+                  {itinerary.endDate.toString().substring(0, 10)}
                 </Typography>
               </Grid>
             </Grid>

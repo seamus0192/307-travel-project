@@ -1,4 +1,4 @@
-// import styles from './CreateItinerary.module.css'
+// import styles from "./CreateItinerary.module.css"
 import React, { useState } from "react";
 import { Container, TextField, Button, Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -15,6 +15,7 @@ import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import AnchorIcon from "@mui/icons-material/Anchor";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
+import { createItinerary } from "../../httpClient/itinerary";
 
 interface IconItem {
   name: string;
@@ -23,13 +24,56 @@ interface IconItem {
 
 function CreateItinerary(): React.ReactElement {
   const [itenTitle, setItenTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [endDate, setEndDate] = useState<Date>(new Date());
   const [location, setLocation] = useState("");
-  const [numTravelers, setNumTravelers] = useState("");
+  const [numTravelers, setNumTravelers] = useState(0);
+  const [icon, setIcon] = useState("");
+
   const handleCreateButtonClick = (): void => {
-    console.log("Itinerary Title:", itenTitle); // Adding logic later for connection with backend
+    console.log({
+      name: itenTitle,
+      icon,
+      endDate,
+      travelerCount: numTravelers,
+      location,
+      startDate,
+    });
+
+    const create = async (): Promise<void> => {
+      try {
+        await createItinerary(
+          {
+            name: itenTitle,
+            icon,
+            endDate,
+            travelerCount: numTravelers,
+            location,
+            startDate,
+          },
+          localStorage.userId as number,
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    create().catch(console.error);
   };
+
+  function formatDate(date: string | number | Date): string {
+    if (date === "") return "";
+
+    const d = new Date(date);
+    let month = "" + (d.getMonth() + 1);
+    let day = "" + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
 
   const icons: IconItem[] = [
     {
@@ -85,7 +129,7 @@ function CreateItinerary(): React.ReactElement {
   ];
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Box
         display="flex"
         justifyContent="center"
@@ -100,7 +144,12 @@ function CreateItinerary(): React.ReactElement {
             justifyContent="center"
           >
             <Grid container spacing={2}>
-              <IconSelection icons={icons} />
+              <IconSelection
+                icons={icons}
+                onSelectIcon={(selectedIconName) => {
+                  setIcon(selectedIconName);
+                }}
+              />
               <Grid xs={8}>
                 <TextField
                   label="Itinerary Title"
@@ -116,25 +165,33 @@ function CreateItinerary(): React.ReactElement {
               <Grid xs={3}>
                 <TextField
                   label="Start Date (DD/MM/YYYY)"
+                  type="date"
                   variant="outlined"
-                  value={startDate}
+                  value={formatDate(startDate)} // Format the date for the input
                   onChange={(e) => {
-                    setStartDate(e.target.value);
+                    setStartDate(new Date(e.target.value)); // e.target.value is in YYYY-MM-DD format
                   }}
                   margin="normal"
                   fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid xs={3}>
                 <TextField
                   label="End Date (DD/MM/YYYY)"
+                  type="date"
                   variant="outlined"
-                  value={endDate}
+                  value={formatDate(endDate)} // Format the date for the input
                   onChange={(e) => {
-                    setEndDate(e.target.value);
+                    setEndDate(new Date(e.target.value)); // e.target.value is in YYYY-MM-DD format
                   }}
                   margin="normal"
                   fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid xs={6}>
@@ -152,10 +209,11 @@ function CreateItinerary(): React.ReactElement {
               <Grid xs={12}>
                 <TextField
                   label="# of Travelers"
+                  type="number"
                   variant="outlined"
                   value={numTravelers}
                   onChange={(e) => {
-                    setNumTravelers(e.target.value);
+                    setNumTravelers(parseFloat(e.target.value));
                   }}
                   margin="normal"
                   fullWidth
@@ -175,7 +233,7 @@ function CreateItinerary(): React.ReactElement {
                 },
               }}
             >
-              Create Itenary!
+              Create Itinerary!
             </Button>
           </Box>
         </Paper>

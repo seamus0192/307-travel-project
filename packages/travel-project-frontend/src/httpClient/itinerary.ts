@@ -18,6 +18,10 @@ const createItinerary = async (
     {
       name: itinerary.name,
       icon: itinerary.icon,
+      endDate: itinerary.endDate,
+      travelerCount: itinerary.travelerCount,
+      location: itinerary.location,
+      startDate: itinerary.startDate,
     },
   );
 
@@ -33,6 +37,10 @@ const updateItinerary = async (
     {
       name: itinerary.name,
       icon: itinerary.icon,
+      endDate: itinerary.endDate,
+      travelerCount: itinerary.travelerCount,
+      location: itinerary.location,
+      startDate: itinerary.startDate,
     },
   );
 
