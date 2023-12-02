@@ -97,7 +97,7 @@ function HomePage(): JSX.Element {
     },
   ];
 
-  useEffect(() => {
+  useEffect((): void => {
     getItineraries(localStorage.userId as number)
       .then((data) => {
         setItineraries(data);

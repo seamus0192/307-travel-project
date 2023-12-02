@@ -33,11 +33,11 @@ function CreateItinerary(): React.ReactElement {
   const handleCreateButtonClick = (): void => {
     console.log({
       name: itenTitle,
-      icon: icon,
-      endDate: endDate,
+      icon,
+      endDate,
       travelerCount: numTravelers,
-      location: location,
-      startDate: startDate,
+      location,
+      startDate,
     });
 
     const create = async (): Promise<void> => {
@@ -45,11 +45,11 @@ function CreateItinerary(): React.ReactElement {
         await createItinerary(
           {
             name: itenTitle,
-            icon: icon,
-            endDate: endDate,
+            icon,
+            endDate,
             travelerCount: numTravelers,
-            location: location,
-            startDate: startDate,
+            location,
+            startDate,
           },
           localStorage.userId as number,
         );
@@ -233,7 +233,7 @@ function CreateItinerary(): React.ReactElement {
                 },
               }}
             >
-              Create Itenary!
+              Create Itinerary!
             </Button>
           </Box>
         </Paper>
