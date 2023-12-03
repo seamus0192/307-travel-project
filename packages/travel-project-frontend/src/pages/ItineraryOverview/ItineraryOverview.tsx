@@ -22,7 +22,7 @@ const ItineraryOverview: React.FC = () => {
       try {
         // Check if itineraryId is defined and is a valid string
         if (itineraryId !== null && itineraryId !== undefined) {
-          const id = parseInt(itineraryId, 10);
+          const id = parseInt(itineraryId.substring(1), 10);
           if (!isNaN(id)) {
             const fetchedDays = await getDays(id);
             const formattedDays = fetchedDays.map((day) => ({

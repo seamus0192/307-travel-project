@@ -158,7 +158,7 @@ function HomePage(): JSX.Element {
               textDecoration: "none",
             }}
             component={RouterLink}
-            to="/itinerary"
+            to={`/itinerary/:${itinerary.id}`}
           >
             <Grid container spacing={2} alignItems="center">
               <Grid item>
