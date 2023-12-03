@@ -85,9 +85,9 @@ const Header: React.FC = () => {
               mx: 1,
             }}
             component={RouterLink}
-            to="/itinerary/day"
+            to="/itinerary/create-event"
           >
-            TEMP: Day View
+            Create Event
           </Button>
         </Box>
       </Toolbar>
