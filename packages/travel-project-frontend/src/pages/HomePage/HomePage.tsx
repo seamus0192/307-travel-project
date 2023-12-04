@@ -5,10 +5,8 @@ import {
   TextField,
   Button,
   Container,
-  Card,
   Typography,
 } from "@mui/material";
-// import { getItineraries } from '../../httpClient/itinerary'
 import Grid from "@mui/material/Grid";
 import ForestIcon from "@mui/icons-material/Forest";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
@@ -43,6 +41,9 @@ interface IconItem {
 function HomePage(): JSX.Element {
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [originalItineraries, setOriginalItineraries] = useState<Itinerary[]>(
+    [],
+  );
 
   const icons: IconItem[] = [
     {
@@ -101,6 +102,7 @@ function HomePage(): JSX.Element {
     getItineraries(localStorage.userId as number)
       .then((data) => {
         setItineraries(data);
+        setOriginalItineraries(data);
       })
       .catch((error) => {
         console.error(error);
@@ -115,7 +117,7 @@ function HomePage(): JSX.Element {
 
   const handleSearch = (): void => {
     console.log(searchTerm.toLowerCase());
-    const filteredItineraries = itineraries.filter((itinerary) =>
+    const filteredItineraries = originalItineraries.filter((itinerary) =>
       itinerary.name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
     setItineraries(filteredItineraries);
@@ -150,17 +152,26 @@ function HomePage(): JSX.Element {
       </AppBar>
       <Container>
         {itineraries.map((itinerary) => (
-          <Card
+          <Container
+            className="card"
             key={itinerary.id}
             style={{
-              marginBottom: "20px",
+              backgroundColor: "#f0f0f0", // Light grey color
               color: "#7139a8",
               textDecoration: "none",
+              marginBottom: "3.5rem",
+              boxShadow: "0 8px 16px 0 rgba(0,0,0,0.2)",
+              transition: "background-color 0.3s, box-shadow 0.3s",
             }}
             component={RouterLink}
             to={`/itinerary/:${itinerary.id}`}
           >
-            <Grid container spacing={2} alignItems="center">
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              style={{ paddingBottom: ".75rem" }}
+            >
               <Grid item>
                 {
                   icons.find((iconItem) => iconItem.name === itinerary.icon)
@@ -198,7 +209,7 @@ function HomePage(): JSX.Element {
                 </Typography>
               </Grid>
             </Grid>
-          </Card>
+          </Container>
         ))}
       </Container>
     </div>

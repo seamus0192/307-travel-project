@@ -22,7 +22,6 @@ function LandingPage(): React.ReactElement {
       ></div>
       <Box
         sx={{
-          position: "absolute",
           top: "30%",
           left: "5%",
         }}

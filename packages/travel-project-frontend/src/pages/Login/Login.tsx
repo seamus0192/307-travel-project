@@ -19,7 +19,7 @@ function Login(): JSX.Element {
       localStorage.setItem("token", response.token ?? "");
       localStorage.setItem("userId", response.id.toString());
       setAuthToken();
-      nav("/");
+      nav("/home");
     } catch (error) {
       setError("Incorrect username or password");
       console.error("Login failed");

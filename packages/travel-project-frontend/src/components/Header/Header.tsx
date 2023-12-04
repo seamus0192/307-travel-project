@@ -23,14 +23,16 @@ const Header: React.FC = () => {
     >
       <Toolbar sx={{ flexWrap: "wrap", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
-          <IconButton component={RouterLink} to="/">
-            <img
-              src={VacationTrackerLogo}
-              alt="Vacation Tracker"
-              width="50"
-              height="50"
-            />
-          </IconButton>
+          {localStorage.token != null && (
+            <IconButton component={RouterLink} to="/home">
+              <img
+                src={VacationTrackerLogo}
+                alt="Vacation Tracker"
+                width="50"
+                height="50"
+              />
+            </IconButton>
+          )}
           <Typography
             variant="h6"
             color="inherit"
