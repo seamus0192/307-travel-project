@@ -6,6 +6,8 @@ import {
   Button,
   Container,
   Typography,
+  Card,
+  CardContent,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import ForestIcon from "@mui/icons-material/Forest";
@@ -22,13 +24,13 @@ import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import PeopleIcon from "@mui/icons-material/People";
 import { Link as RouterLink } from "react-router-dom";
-import { getItineraries } from "../../httpClient/itinerary";
+import { getItineraries, deleteItinerary } from "../../httpClient/itinerary";
 
 interface Itinerary {
   id: number;
   name: string;
-  icon?: string; // Optional icon
-  startDate: Date; // Using string to represent dates, can be adjusted based on how dates are handled
+  icon?: string;
+  startDate: Date;
   endDate: Date;
   travelerCount: number;
 }
@@ -123,6 +125,21 @@ function HomePage(): JSX.Element {
     setItineraries(filteredItineraries);
   };
 
+  const handleDelete = async (
+    itineraryId: number,
+    e: React.MouseEvent<HTMLButtonElement>,
+  ): Promise<void> => {
+    e.stopPropagation(); // Prevent event from bubbling up to the container click
+    try {
+      await deleteItinerary(itineraryId);
+      setItineraries(
+        itineraries.filter((itinerary) => itinerary.id !== itineraryId),
+      );
+    } catch (error) {
+      console.error("Error deleting itinerary:", error);
+    }
+  };
+
   return (
     <div>
       <AppBar
@@ -138,8 +155,13 @@ function HomePage(): JSX.Element {
             style={{ marginRight: "10px", width: "50%" }}
           />
           <Button
+            sx={{
+              backgroundColor: "#203973",
+              ":hover": {
+                bgcolor: "#3355A8",
+              },
+            }}
             style={{
-              backgroundColor: "#7139a8",
               height: "3.25rem",
               width: "7rem",
             }}
@@ -152,70 +174,83 @@ function HomePage(): JSX.Element {
       </AppBar>
       <Container>
         {itineraries.map((itinerary) => (
-          <Container
-            className="card"
+          <Card
             key={itinerary.id}
+            sx={{ marginBottom: 2, mt: 2, position: "relative" }}
             style={{
-              backgroundColor: "#f0f0f0", // Light grey color
-              color: "#7139a8",
-              textDecoration: "none",
-              marginBottom: "3.5rem",
-              boxShadow: "0 8px 16px 0 rgba(0,0,0,0.2)",
-              transition: "background-color 0.3s, box-shadow 0.3s",
+              backgroundColor: "#daeee7",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "#e0e0e0";
+              e.currentTarget.style.backgroundColor = "#c0deda";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "#f0f0f0";
+              e.currentTarget.style.backgroundColor = "#daeee7";
             }}
-            component={RouterLink}
-            to={`/itinerary/:${itinerary.id}`}
           >
-            <Grid
-              container
-              spacing={2}
-              alignItems="center"
-              style={{ paddingBottom: ".75rem" }}
-            >
-              <Grid item>
-                {
-                  icons.find((iconItem) => iconItem.name === itinerary.icon)
-                    ?.icon
-                }
-              </Grid>
-              <Grid item xs>
-                <Typography variant="h5">{itinerary.name}</Typography>
-                <Grid>
-                  <Grid container alignItems="center" spacing={1}>
-                    <Grid item>
-                      <PeopleIcon />
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="body2">
-                        {itinerary.travelerCount}
-                      </Typography>
-                    </Grid>
-                  </Grid>
+            <CardContent sx={{ "&:last-child": { paddingBottom: 2 } }}>
+              <RouterLink
+                to={`/itinerary/${itinerary.id}`}
+                style={{
+                  textDecoration: "none",
+                  color: "inherit",
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  zIndex: 1,
+                }}
+              />
+              <Grid container alignItems="center" spacing={2}>
+                <Grid item>
+                  {
+                    icons.find((iconItem) => iconItem.name === itinerary.icon)
+                      ?.icon
+                  }
+                </Grid>
+                <Grid item xs={10}>
+                  <Typography variant="h5" gutterBottom>
+                    {itinerary.name}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Start Date:{" "}
+                    {itinerary.startDate.toString().substring(0, 10)}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    End Date: {itinerary.endDate.toString().substring(0, 10)}
+                  </Typography>
+                  <Typography variant="body2">
+                    <PeopleIcon /> {itinerary.travelerCount}
+                  </Typography>
+                </Grid>
+                <Grid item xs={2} sx={{ zIndex: 2 }}>
+                  {" "}
+                  {/* Ensure the delete button is above the link */}
+                  <Button
+                    style={{
+                      backgroundColor: "#203973",
+                    }}
+                    variant="contained"
+                    color="secondary"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (
+                        window.confirm(
+                          "Are you sure you want to delete this itinerary? This action cannot be undone!",
+                        )
+                      ) {
+                        handleDelete(itinerary.id, e).catch((error) => {
+                          console.error("Error deleting itinerary:", error);
+                        });
+                      }
+                    }}
+                  >
+                    Delete Itinerary
+                  </Button>
                 </Grid>
               </Grid>
-              <Grid item>
-                <Typography
-                  variant="body1"
-                  style={{ padding: "0 1rem 0 1rem" }}
-                >
-                  Start Date: {itinerary.startDate.toString().substring(0, 10)}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  style={{ padding: "0 1rem 0 1rem" }}
-                >
-                  End Date: &nbsp;
-                  {itinerary.endDate.toString().substring(0, 10)}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Container>
+            </CardContent>
+          </Card>
         ))}
       </Container>
     </div>

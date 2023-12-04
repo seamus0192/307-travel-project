@@ -62,7 +62,7 @@ const ItineraryOverview: React.FC = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                backgroundColor: "#f4f4f9", // Light greyish background
+                backgroundColor: "#daeee7", // Light greyish background
                 "&:hover": {
                   boxShadow: 8,
                 },
@@ -82,9 +82,9 @@ const ItineraryOverview: React.FC = () => {
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: "#7139a8", // Matching the purple theme
+                  backgroundColor: "#203973", // Matching the purple theme
                   ":hover": {
-                    bgcolor: "#965ad3", // Slightly lighter purple on hover
+                    bgcolor: "#3355A8", // Slightly lighter purple on hover
                   },
                   m: 2,
                 }}

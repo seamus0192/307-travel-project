@@ -139,7 +139,10 @@ function CreateItinerary(): React.ReactElement {
         alignItems="center"
         marginTop={4}
       >
-        <Paper elevation={6} style={{ width: "100%", padding: "2em" }}>
+        <Paper
+          elevation={6}
+          style={{ width: "100%", padding: "2em", backgroundColor: "#daeee7" }}
+        >
           <Box
             display="flex"
             flexDirection="column"
@@ -163,6 +166,17 @@ function CreateItinerary(): React.ReactElement {
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid xs={3}>
@@ -178,6 +192,17 @@ function CreateItinerary(): React.ReactElement {
                   fullWidth
                   InputLabelProps={{
                     shrink: true,
+                  }}
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
                   }}
                 />
               </Grid>
@@ -195,6 +220,17 @@ function CreateItinerary(): React.ReactElement {
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid xs={6}>
@@ -207,6 +243,17 @@ function CreateItinerary(): React.ReactElement {
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid xs={12}>
@@ -220,6 +267,17 @@ function CreateItinerary(): React.ReactElement {
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
             </Grid>
@@ -230,9 +288,9 @@ function CreateItinerary(): React.ReactElement {
               onClick={handleCreateButtonClick}
               sx={{
                 m: 2,
-                backgroundColor: "#7139a8",
+                backgroundColor: "#203973",
                 ":hover": {
-                  bgcolor: "#965ad3",
+                  bgcolor: "#3355A8",
                 },
               }}
             >
