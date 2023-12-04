@@ -1,5 +1,5 @@
 .card:hover {
-    background-color: #7139a8; /* Inverted background color */
-    color: #f0f0f0; /* Inverted text color */
-    box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.3); /* Adjust shadow color */
+  background-color: #203973; /* Inverted background color */
+  color: #f0f0f0; /* Inverted text color */
+  box-shadow: 0 12px 24px 0 rgba(0, 0, 0, 0.3); /* Adjust shadow color */
 }

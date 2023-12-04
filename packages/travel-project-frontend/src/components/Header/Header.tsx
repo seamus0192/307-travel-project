@@ -20,6 +20,9 @@ const Header: React.FC = () => {
         borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
         overflow: "hidden",
       }}
+      style={{
+        backgroundColor: "#daeee7",
+      }}
     >
       <Toolbar sx={{ flexWrap: "wrap", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
@@ -52,9 +55,9 @@ const Header: React.FC = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: "#7139a8",
+              backgroundColor: "#203973",
               ":hover": {
-                bgcolor: "#965ad3",
+                bgcolor: "#3355A8",
               },
               mx: 1,
             }}
@@ -66,9 +69,9 @@ const Header: React.FC = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: "#7139a8",
+              backgroundColor: "#203973",
               ":hover": {
-                bgcolor: "#965ad3",
+                bgcolor: "#3355A8",
               },
               mx: 1,
             }}
@@ -80,9 +83,9 @@ const Header: React.FC = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: "#7139a8",
+              backgroundColor: "#203973",
               ":hover": {
-                bgcolor: "#965ad3",
+                bgcolor: "#3355A8",
               },
               mx: 1,
             }}

@@ -1,31 +1,73 @@
-// import styles from './CreateItinerary.module.css'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   TextField,
   Button,
   Box,
   Paper,
-  Select,
   FormControl,
-  MenuItem,
   InputLabel,
+  MenuItem,
+  Select,
+  type SelectChangeEvent,
 } from "@mui/material";
-import type { SelectChangeEvent } from "@mui/material/Select";
 import Grid from "@mui/material/Unstable_Grid2";
+import { getItineraries } from "../../httpClient/itinerary";
+import { createEvent } from "../../httpClient/event";
+import { type Itinerary } from "@prisma/client";
+import { useNavigate } from "react-router-dom";
 
 function CreateEvent(): React.ReactElement {
-  const [itenTitle, setItenTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [location, setLocation] = useState("");
-  const [numTravelers, setNumTravelers] = useState("");
-  const [age, setAge] = React.useState("");
-  const handleCreateButtonClick = (): void => {
-    console.log("Itinerary Title:", itenTitle); // Adding logic later for connection with backend
-  };
+  const [itenId, setItenId] = useState("");
+  const [day, setDay] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [eventType, setEventType] = useState("");
+  const [ticketLink, setTicketLink] = useState("");
+  const [cost, setCost] = useState("");
+  const [eventLocation, setEventLocation] = useState("");
+  const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchItineraries = async (): Promise<void> => {
+      try {
+        const userId = localStorage.getItem("userId");
+        if (userId !== null) {
+          const fetchedItineraries = await getItineraries(parseInt(userId));
+          setItineraries(fetchedItineraries);
+        }
+      } catch (error) {
+        console.error("Error fetching itineraries:", error);
+      }
+    };
+
+    fetchItineraries().catch(Error);
+  }, []);
+
   const handleChange = (event: SelectChangeEvent): void => {
-    setAge(event.target.value);
+    setEventType(event.target.value);
+  };
+
+  const handleCreateButtonClick = (): void => {
+    (async () => {
+      try {
+        const eventData = {
+          name: eventType,
+          startTime: parseInt(startTime),
+          endTime: parseInt(endTime),
+          cost: parseFloat(cost),
+          link: ticketLink,
+          location: eventLocation,
+        };
+
+        const dayId = parseInt(day);
+        await createEvent(eventData, dayId);
+        navigate(`/itinerary/${itenId}`);
+      } catch (error) {
+        console.error("Error creating event:", error);
+      }
+    })().catch(Error);
   };
 
   return (
@@ -36,7 +78,10 @@ function CreateEvent(): React.ReactElement {
         alignItems="center"
         marginTop={4}
       >
-        <Paper elevation={6} style={{ width: "100%", padding: "2em" }}>
+        <Paper
+          elevation={6}
+          style={{ width: "100%", padding: "2em", backgroundColor: "#daeee7" }}
+        >
           <Box
             display="flex"
             flexDirection="column"
@@ -44,63 +89,132 @@ function CreateEvent(): React.ReactElement {
             justifyContent="center"
           >
             <Grid container spacing={2}>
+              {/* Itinerary Select Field */}
               <Grid xs={8}>
-                <TextField
-                  label="Itinerary"
-                  variant="outlined"
-                  value={itenTitle}
-                  onChange={(e) => {
-                    setItenTitle(e.target.value);
-                  }}
-                  margin="normal"
+                <FormControl
                   fullWidth
-                />
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
+                >
+                  <InputLabel id="select-itinerary-label">Itinerary</InputLabel>
+                  <Select
+                    labelId="select-itinerary-label"
+                    id="select-itinerary"
+                    value={itenId}
+                    label="Itinerary"
+                    onChange={(e) => {
+                      setItenId(e.target.value);
+                    }}
+                  >
+                    {itineraries.map((itinerary) => (
+                      <MenuItem key={itinerary.id} value={itinerary.id}>
+                        {itinerary.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
-              <Grid>
+              <Grid xs={8}>
                 <TextField
                   label="Day"
                   variant="outlined"
-                  value={startDate}
+                  value={day}
                   onChange={(e) => {
-                    setStartDate(e.target.value);
+                    setDay(e.target.value);
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid xs={3}>
                 <TextField
                   label="Start Time"
                   variant="outlined"
-                  value={endDate}
+                  value={startTime}
                   onChange={(e) => {
-                    setEndDate(e.target.value);
+                    setStartTime(e.target.value);
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid xs={3}>
                 <TextField
                   label="End Time"
                   variant="outlined"
-                  value={endDate}
+                  value={endTime}
                   onChange={(e) => {
-                    setEndDate(e.target.value);
+                    setEndTime(e.target.value);
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid xs={12}>
-                <FormControl fullWidth required>
+                <FormControl
+                  fullWidth
+                  required
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
+                >
                   <InputLabel id="demo-simple-select-label">
                     EventType
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={age}
+                    value={eventType}
                     label="Event Type*"
                     onChange={handleChange}
                   >
@@ -114,56 +228,90 @@ function CreateEvent(): React.ReactElement {
               </Grid>
               <Grid xs={12}>
                 <TextField
-                  label="Reservation/Ticket"
+                  label="Reservation/Ticket Link"
                   variant="outlined"
-                  value={location}
+                  value={ticketLink}
                   onChange={(e) => {
-                    setLocation(e.target.value);
+                    setTicketLink(e.target.value);
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
               <Grid xs={12}>
                 <TextField
                   label="Cost"
                   variant="outlined"
-                  value={location}
+                  value={cost}
                   onChange={(e) => {
-                    setLocation(e.target.value);
+                    setCost(e.target.value);
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
-              <Grid>
+              <Grid xs={12}>
                 <TextField
                   label="Location"
                   variant="outlined"
-                  value={numTravelers}
+                  value={eventLocation}
                   onChange={(e) => {
-                    setNumTravelers(e.target.value);
+                    setEventLocation(e.target.value);
                   }}
                   margin="normal"
                   fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
                 />
               </Grid>
+              {/* Create Event Button */}
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={handleCreateButtonClick}
+                sx={{
+                  m: 2,
+                  backgroundColor: "#203973",
+                  ":hover": {
+                    bgcolor: "#3355A8",
+                  },
+                }}
+              >
+                Create Event
+              </Button>
             </Grid>
-            <Button
-              variant="contained"
-              color="primary"
-              size="large"
-              onClick={handleCreateButtonClick}
-              sx={{
-                m: 2,
-                backgroundColor: "#7139a8",
-                ":hover": {
-                  bgcolor: "#965ad3",
-                },
-              }}
-            >
-              Create
-            </Button>
           </Box>
         </Paper>
       </Box>

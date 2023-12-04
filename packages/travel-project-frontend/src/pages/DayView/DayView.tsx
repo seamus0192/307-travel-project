@@ -44,6 +44,7 @@ const BookingCard: React.FC<Event> = ({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          backgroundColor: "#daeee7",
           "&:hover": {
             boxShadow: 8,
           },
@@ -77,9 +78,9 @@ const BookingCard: React.FC<Event> = ({
             <Button
               variant="contained"
               sx={{
-                backgroundColor: "#7139a8",
+                backgroundColor: "#203973",
                 ":hover": {
-                  bgcolor: "#965ad3",
+                  bgcolor: "#3355A8",
                 },
                 mt: 2,
               }}
@@ -120,9 +121,9 @@ const DayView: React.FC = () => {
         }}
         sx={{
           m: 2,
-          backgroundColor: "#7139a8",
+          backgroundColor: "#203973",
           ":hover": {
-            bgcolor: "#965ad3",
+            bgcolor: "#3355A8",
           },
         }}
       >

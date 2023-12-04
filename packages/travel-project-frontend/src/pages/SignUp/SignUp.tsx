@@ -97,8 +97,8 @@ function Signup(): JSX.Element {
           sx={{
             mt: 2,
             mb: 2,
-            backgroundColor: "#7139a8",
-            ":hover": { bgcolor: "#965ad3" },
+            backgroundColor: "#203973",
+            ":hover": { bgcolor: "#3355A8" },
           }}
           fullWidth
         >
