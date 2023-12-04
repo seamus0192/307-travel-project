@@ -31,7 +31,7 @@ function App(): JSX.Element {
             element={<ItineraryOverview />}
           />
           <Route path="/day/:dayId" element={<DayView />} />
-          <Route path="/login/home" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/itinerary" element={<ItineraryOverview />} />
           <Route path="/itinerary/day" element={<DayView />} />
           <Route path="/itinerary/create-event" element={<CreateEvent />} />
