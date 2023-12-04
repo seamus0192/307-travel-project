@@ -132,7 +132,7 @@ function HomePage(): JSX.Element {
       >
         <Toolbar style={{ justifyContent: "center" }}>
           <TextField
-            label="Search Itinerary"
+            label="Search Itineraries"
             variant="outlined"
             onChange={handleSearchChange}
             style={{ marginRight: "10px", width: "50%" }}
@@ -162,6 +162,12 @@ function HomePage(): JSX.Element {
               marginBottom: "3.5rem",
               boxShadow: "0 8px 16px 0 rgba(0,0,0,0.2)",
               transition: "background-color 0.3s, box-shadow 0.3s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#e0e0e0";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "#f0f0f0";
             }}
             component={RouterLink}
             to={`/itinerary/:${itinerary.id}`}

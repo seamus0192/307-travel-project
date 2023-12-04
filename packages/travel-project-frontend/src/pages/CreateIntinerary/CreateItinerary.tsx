@@ -16,6 +16,7 @@ import AnchorIcon from "@mui/icons-material/Anchor";
 import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import { createItinerary } from "../../httpClient/itinerary";
+import { useNavigate } from "react-router-dom";
 
 interface IconItem {
   name: string;
@@ -29,6 +30,7 @@ function CreateItinerary(): React.ReactElement {
   const [location, setLocation] = useState("");
   const [numTravelers, setNumTravelers] = useState(0);
   const [icon, setIcon] = useState("");
+  const nav = useNavigate();
 
   const handleCreateButtonClick = (): void => {
     console.log({
@@ -59,6 +61,7 @@ function CreateItinerary(): React.ReactElement {
     };
 
     create().catch(console.error);
+    nav("/home");
   };
 
   function formatDate(date: string | number | Date): string {

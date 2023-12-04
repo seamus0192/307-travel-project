@@ -21,7 +21,7 @@ function Signup(): JSX.Element {
       localStorage.setItem("token", response.token ?? "");
       localStorage.setItem("userId", response.id.toString());
       setAuthToken();
-      nav("/");
+      nav("/home");
     } catch {
       console.error("Signup failed");
     }
