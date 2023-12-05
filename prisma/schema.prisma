@@ -53,9 +53,9 @@ model Day {
 model Event {
   id        Int     @id @default(autoincrement())
   name      String
-  startTime Int
-  endTime   Int
-  cost      Int
+  startTime String
+  endTime   String
+  cost      Int?
   link      String?
   day       Day     @relation(fields: [dayId], references: [id])
   dayId     Int
