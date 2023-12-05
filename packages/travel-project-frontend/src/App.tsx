@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import "./App.css";
 
@@ -14,38 +14,109 @@ import Signup from "./pages/SignUp/SignUp";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import { setAuthToken } from "./httpClient/axiosConfig";
+import { authContext, AuthProvider } from "./authContext/authContext";
 
 function App(): JSX.Element {
-  setAuthToken();
   return (
     <BrowserRouter>
-      <Header />
-      <div>
+      <AuthProvider>
+        <Header />
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/create-itinerary" element={<CreateItinerary />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/"
+            element={
+              <UnauthorizedHandler>
+                <LandingPage />
+              </UnauthorizedHandler>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <UnauthorizedHandler>
+                <Login />
+              </UnauthorizedHandler>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <UnauthorizedHandler>
+                <Signup />
+              </UnauthorizedHandler>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <AuthorizedHandler>
+                <HomePage />
+              </AuthorizedHandler>
+            }
+          />
           <Route
             path="/itinerary/:itineraryId"
-            element={<ItineraryOverview />}
+            element={
+              <AuthorizedHandler>
+                <ItineraryOverview />
+              </AuthorizedHandler>
+            }
           />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/itinerary" element={<ItineraryOverview />} />
+          <Route
+            path="/create-itinerary"
+            element={
+              <AuthorizedHandler>
+                <CreateItinerary />
+              </AuthorizedHandler>
+            }
+          />
           <Route
             path="/itinerary/:itineraryId/day/:dayId"
-            element={<DayView />}
+            element={
+              <AuthorizedHandler>
+                <DayView />
+              </AuthorizedHandler>
+            }
           />
           <Route
             path="/itinerary/:itineraryId/day/:dayId/create-event"
-            element={<CreateEvent />}
+            element={
+              <AuthorizedHandler>
+                <CreateEvent />
+              </AuthorizedHandler>
+            }
           />
         </Routes>
-      </div>
-      <Footer />
+        <Footer />
+      </AuthProvider>
     </BrowserRouter>
   );
+}
+
+function AuthorizedHandler({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactNode {
+  const { user } = useContext(authContext);
+
+  if (user === null) {
+    return <Navigate to={"/"} />;
+  }
+  return children;
+}
+
+function UnauthorizedHandler({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactNode {
+  const { user } = useContext(authContext);
+
+  if (user !== null) {
+    return <Navigate to={"/home"} />;
+  }
+  return children;
 }
 
 export default App;

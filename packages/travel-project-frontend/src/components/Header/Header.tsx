@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import VacationTrackerLogo from "../../assets/Vacation Tracker Background Remover.png";
+import { Modal } from "@mui/base/Modal";
+import { authContext } from "../../authContext/authContext";
 
 const style = {
   position: "absolute" as const,
@@ -24,13 +26,8 @@ const style = {
 };
 
 const Header: React.FC = () => {
+  const { user, logout } = useContext(authContext);
   const [open, setOpen] = React.useState(false);
-  const handleOpen: () => void = () => {
-    setOpen(true);
-  };
-  const handleClose: () => void = () => {
-    setOpen(false);
-  };
 
   return (
     <AppBar
@@ -73,6 +70,21 @@ const Header: React.FC = () => {
           </Typography>
         </Box>
         <div>
+          {user !== null && (
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#7139a8",
+                ":hover": {
+                  bgcolor: "#965ad3",
+                },
+                mx: 1,
+              }}
+              onClick={logout}
+            >
+              logout
+            </Button>
+          )}
           <Button
             variant="contained"
             sx={{
@@ -82,13 +94,14 @@ const Header: React.FC = () => {
               },
               mx: 1,
             }}
-            onClick={handleOpen}
+            onClick={() => {
+              setOpen(!open);
+            }}
           >
-            Open modal
+            References
           </Button>
           <Modal
             open={open}
-            onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >

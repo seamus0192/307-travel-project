@@ -1,34 +1,29 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { TextField, Button, Paper, Box, Typography, Link } from "@mui/material";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { signupUser } from "../../httpClient/user";
-import { setAuthToken } from "../../httpClient/axiosConfig";
+import { authContext } from "../../authContext/authContext";
 
 function Signup(): JSX.Element {
+  const { login } = useContext(authContext);
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const nav = useNavigate();
 
-  const handleSignupButtonClick = async (): Promise<void> => {
+  const handleSignupButtonClick = (): void => {
     if (password !== confirmPassword) {
       console.error("Passwords do not match");
       return;
     }
-    try {
-      const response = await signupUser({ username: email, password });
-      console.log("Signup successful:", response);
-      localStorage.setItem("token", response.token ?? "");
-      localStorage.setItem("userId", response.id.toString());
-      setAuthToken();
-      nav("/home");
-    } catch {
-      console.error("Signup failed");
-    }
-  };
 
-  const signup = (): void => {
-    handleSignupButtonClick().catch(console.error);
+    signupUser({ username: email, password })
+      .then((response) => {
+        login(response);
+      })
+      .catch((error) => {
+        console.error("Signup failed", error);
+      });
   };
 
   return (
@@ -92,7 +87,7 @@ function Signup(): JSX.Element {
           type="password"
         />
         <Button
-          onClick={signup}
+          onClick={handleSignupButtonClick}
           variant="contained"
           sx={{
             mt: 2,

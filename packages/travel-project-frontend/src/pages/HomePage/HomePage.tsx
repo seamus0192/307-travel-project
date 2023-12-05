@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   AppBar,
   Toolbar,
@@ -25,15 +25,8 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import PeopleIcon from "@mui/icons-material/People";
 import { Link as RouterLink } from "react-router-dom";
 import { getItineraries, deleteItinerary } from "../../httpClient/itinerary";
-
-interface Itinerary {
-  id: number;
-  name: string;
-  icon?: string;
-  startDate: Date;
-  endDate: Date;
-  travelerCount: number;
-}
+import { type Itinerary } from "@prisma/client";
+import { authContext } from "../../authContext/authContext";
 
 interface IconItem {
   name: string;
@@ -41,6 +34,8 @@ interface IconItem {
 }
 
 function HomePage(): JSX.Element {
+  const { user } = useContext(authContext);
+
   const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [originalItineraries, setOriginalItineraries] = useState<Itinerary[]>(
@@ -101,14 +96,16 @@ function HomePage(): JSX.Element {
   ];
 
   useEffect((): void => {
-    getItineraries(localStorage.userId as number)
-      .then((data) => {
-        setItineraries(data);
-        setOriginalItineraries(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (user !== null) {
+      getItineraries(user.id)
+        .then((data) => {
+          setItineraries(data);
+          setOriginalItineraries(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   }, []);
 
   const handleSearchChange = (event: {
