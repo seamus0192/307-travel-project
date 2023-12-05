@@ -172,6 +172,22 @@ function HomePage(): JSX.Element {
           </Button>
         </Toolbar>
       </AppBar>
+      <Grid container spacing={2} justifyContent="center">
+        <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "#7139a8",
+            ":hover": {
+              bgcolor: "#965ad3",
+            },
+            mx: 1,
+          }}
+          component={RouterLink}
+          to="/create-itinerary"
+        >
+          Create Itinerary
+        </Button>
+      </Grid>
       <Container>
         {itineraries.map((itinerary) => (
           <Card
