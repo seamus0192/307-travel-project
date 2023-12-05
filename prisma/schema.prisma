@@ -51,14 +51,15 @@ model Day {
 }
 
 model Event {
-  id        Int     @id @default(autoincrement())
-  name      String
-  startTime String
-  endTime   String
-  cost      Int?
-  link      String?
-  day       Day     @relation(fields: [dayId], references: [id], onDelete: Cascade)
-  dayId     Int
+  id          Int     @id @default(autoincrement())
+  name        String
+  startTime   String
+  endTime     String
+  cost        Int?
+  link        String?
+  description String?
+  day         Day     @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  dayId       Int
 
   @@index([dayId])
   @@map("events")

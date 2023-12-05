@@ -21,6 +21,7 @@ const createEvent = async (
       endTime: event.endTime,
       cost: event.cost,
       link: event.link,
+      description: event.description,
     },
   );
 
@@ -39,6 +40,7 @@ const updateEvent = async (
       endTime: event.endTime,
       cost: event.cost,
       link: event.link,
+      description: event.description,
     },
   );
 
