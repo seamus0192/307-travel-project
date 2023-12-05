@@ -1,5 +1,5 @@
 // import styles from "./CreateItinerary.module.css"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, TextField, Button, Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import IconSelection from "../../components/IconSelection/IconSelection";
@@ -33,6 +33,18 @@ function CreateItinerary(): React.ReactElement {
   const [numTravelers, setNumTravelers] = useState(0);
   const [icon, setIcon] = useState("");
   const nav = useNavigate();
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    const checkValidity =
+      itenTitle !== "" &&
+      startDate !== new Date() &&
+      endDate !== new Date() &&
+      location !== "" &&
+      icon !== "" &&
+      numTravelers !== 0;
+    setIsValid(checkValidity);
+  }, [itenTitle, startDate, endDate, location, icon, numTravelers]);
 
   const handleCreateButtonClick = (): void => {
     (async () => {
@@ -186,14 +198,14 @@ function CreateItinerary(): React.ReactElement {
             alignItems="center"
             justifyContent="center"
           >
+            <IconSelection
+              icons={icons}
+              onSelectIcon={(selectedIconName) => {
+                setIcon(selectedIconName);
+              }}
+            />
             <Grid container spacing={2}>
-              <IconSelection
-                icons={icons}
-                onSelectIcon={(selectedIconName) => {
-                  setIcon(selectedIconName);
-                }}
-              />
-              <Grid xs={8}>
+              <Grid xs={12}>
                 <TextField
                   label="Itinerary Title"
                   variant="outlined"
@@ -323,6 +335,7 @@ function CreateItinerary(): React.ReactElement {
               color="primary"
               size="large"
               onClick={handleCreateButtonClick}
+              disabled={!isValid}
               sx={{
                 m: 2,
                 backgroundColor: "#203973",
