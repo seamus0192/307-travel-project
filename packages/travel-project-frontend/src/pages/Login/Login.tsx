@@ -19,7 +19,7 @@ function Login(): JSX.Element {
       localStorage.setItem("token", response.token ?? "");
       localStorage.setItem("userId", response.id.toString());
       setAuthToken();
-      nav("/");
+      nav("/home");
     } catch (error) {
       setError("Incorrect username or password");
       console.error("Login failed");
@@ -50,6 +50,7 @@ function Login(): JSX.Element {
           gap: 2,
           minWidth: "300px",
           maxWidth: "400px",
+          backgroundColor: "#daeee7",
         }}
       >
         <Typography variant="h5" component="h1" gutterBottom>
@@ -66,6 +67,17 @@ function Login(): JSX.Element {
           required
           margin="normal"
           type="email"
+          sx={{
+            backgroundColor: "#fff", // Set background color to white
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "#3355A8", // Optional: sets border color on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#203973", // Optional: sets border color when focused
+              },
+            },
+          }}
         />
         <TextField
           label="Password"
@@ -78,6 +90,17 @@ function Login(): JSX.Element {
           required
           margin="normal"
           type="password"
+          sx={{
+            backgroundColor: "#fff", // Set background color to white
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "#3355A8", // Optional: sets border color on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#203973", // Optional: sets border color when focused
+              },
+            },
+          }}
         />
         {error != null && <div className="error-message">{error}</div>}
         <Button
@@ -86,8 +109,8 @@ function Login(): JSX.Element {
           sx={{
             mt: 2,
             mb: 2,
-            backgroundColor: "#7139a8",
-            ":hover": { bgcolor: "#965ad3" },
+            backgroundColor: "#203973",
+            ":hover": { bgcolor: "#3355A8" },
           }}
           fullWidth
         >

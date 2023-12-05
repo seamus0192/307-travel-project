@@ -25,7 +25,7 @@ model User {
 model Itinerary {
   id            Int      @id @default(autoincrement())
   name          String
-  user          User     @relation(fields: [userId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        Int
   icon          String
   startDate     DateTime
@@ -41,7 +41,7 @@ model Itinerary {
 model Day {
   id          Int       @id @default(autoincrement())
   date        DateTime
-  itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   itineraryId Int
   icon        String
   events      Event[]
@@ -51,14 +51,15 @@ model Day {
 }
 
 model Event {
-  id        Int     @id @default(autoincrement())
-  name      String
-  startTime Int
-  endTime   Int
-  cost      Int
-  link      String?
-  day       Day     @relation(fields: [dayId], references: [id])
-  dayId     Int
+  id          Int     @id @default(autoincrement())
+  name        String
+  startTime   String
+  endTime     String
+  cost        Int?
+  link        String?
+  description String?
+  day         Day     @relation(fields: [dayId], references: [id], onDelete: Cascade)
+  dayId       Int
 
   @@index([dayId])
   @@map("events")

@@ -14,14 +14,19 @@ interface IconItem {
 
 interface IconSelectionProps {
   icons: IconItem[];
+  onSelectIcon: (selectedIconName: string) => void;
 }
 
-const IconSelection: React.FC<IconSelectionProps> = ({ icons }) => {
+const IconSelection: React.FC<IconSelectionProps> = ({
+  icons,
+  onSelectIcon,
+}) => {
   const [open, setOpen] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
 
   const handleListItemClick = (iconName: string): void => {
     setSelectedIcon(iconName);
+    onSelectIcon(iconName);
     setOpen(false);
   };
 

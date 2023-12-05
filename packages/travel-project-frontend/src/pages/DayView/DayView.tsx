@@ -22,14 +22,6 @@ const BookingCard: React.FC<Event> = ({
   link,
   dayId,
 }) => {
-  function formatTime(time: number): React.ReactNode {
-    const date = new Date(time * 1000);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? "PM" : "AM";
-    return `${hours}:${minutes} ${ampm}`;
-  }
-
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
@@ -44,6 +36,7 @@ const BookingCard: React.FC<Event> = ({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          backgroundColor: "#daeee7",
           "&:hover": {
             boxShadow: 8,
           },
@@ -54,10 +47,10 @@ const BookingCard: React.FC<Event> = ({
             {name}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Start Time: {formatTime(startTime)}
+            Start Time: {startTime}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            End Time: {formatTime(endTime)}
+            End Time: {endTime}
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Cost: ${cost}
@@ -77,9 +70,9 @@ const BookingCard: React.FC<Event> = ({
             <Button
               variant="contained"
               sx={{
-                backgroundColor: "#7139a8",
+                backgroundColor: "#203973",
                 ":hover": {
-                  bgcolor: "#965ad3",
+                  bgcolor: "#3355A8",
                 },
                 mt: 2,
               }}
@@ -100,6 +93,7 @@ const DayView: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const navigate = useNavigate();
   const { dayId } = useParams<{ dayId: string }>(); // Get dayId from route parameters
+  const { itineraryId } = useParams<{ itineraryId: string }>();
 
   useEffect(() => {
     if (dayId !== null && dayId !== undefined) {
@@ -111,22 +105,43 @@ const DayView: React.FC = () => {
     }
   }, [dayId]);
 
+  const handleCreateBtn = (): void => {
+    navigate(`/itinerary/${itineraryId}/day/${dayId}/create-event`, {
+      state: { dayId },
+    });
+  };
+
   return (
     <Container>
       <Button
         variant="contained"
         onClick={() => {
-          navigate("/");
+          navigate(`/itinerary/${itineraryId}`);
         }}
         sx={{
           m: 2,
-          backgroundColor: "#7139a8",
+          backgroundColor: "#203973",
           ":hover": {
-            bgcolor: "#965ad3",
+            bgcolor: "#3355A8",
           },
         }}
       >
-        Go Home
+        Go Back
+      </Button>
+      <Button
+        variant="contained"
+        sx={{
+          backgroundColor: "#203973",
+          ":hover": {
+            bgcolor: "#3355A8",
+          },
+          mx: 1,
+        }}
+        onClick={() => {
+          handleCreateBtn();
+        }}
+      >
+        Create Event
       </Button>
       <Grid container spacing={2}>
         {events.map((event: Event) => (

@@ -9,6 +9,7 @@ import {
   Typography,
   Button,
   Container,
+  Box,
 } from "@mui/material";
 import { type Day } from "@prisma/client";
 
@@ -22,7 +23,8 @@ const ItineraryOverview: React.FC = () => {
       try {
         // Check if itineraryId is defined and is a valid string
         if (itineraryId !== null && itineraryId !== undefined) {
-          const id = parseInt(itineraryId, 10);
+          const id = parseInt(itineraryId.substring(0), 10);
+          // console.log(id);
           if (!isNaN(id)) {
             const fetchedDays = await getDays(id);
             const formattedDays = fetchedDays.map((day) => ({
@@ -30,14 +32,13 @@ const ItineraryOverview: React.FC = () => {
               // Convert day.date to a Date object and then to an ISO string
               date: day.date,
             }));
+            // console.log(formattedDays);
             setDays(formattedDays);
           } else {
             console.error("Invalid itineraryId");
-            // Handle invalid itineraryId
           }
         } else {
           console.error("itineraryId is undefined");
-          // Handle undefined itineraryId
         }
       } catch (error) {
         console.error("Error fetching days:", error);
@@ -52,6 +53,17 @@ const ItineraryOverview: React.FC = () => {
   return (
     <Container style={{ marginTop: "20px" }}>
       {/* Added margin to the top */}
+      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: 2 }}>
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "#203973", ":hover": { bgcolor: "#3355A8" } }}
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
+          Go Back
+        </Button>
+      </Box>
       <Grid container spacing={2}>
         {days.map((day, index) => (
           <Grid item key={day.id} xs={12} sm={6} md={4} lg={3}>
@@ -62,13 +74,13 @@ const ItineraryOverview: React.FC = () => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                backgroundColor: "#f4f4f9", // Light greyish background
+                backgroundColor: "#daeee7", // Light greyish background
                 "&:hover": {
                   boxShadow: 8,
                 },
               }}
               onClick={() => {
-                navigate(`/day/${day.id}`);
+                navigate(`/itinerary/${itineraryId}/day/${day.id}`);
               }}
             >
               <CardContent>
@@ -82,14 +94,14 @@ const ItineraryOverview: React.FC = () => {
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: "#7139a8", // Matching the purple theme
+                  backgroundColor: "#203973", // Matching the purple theme
                   ":hover": {
-                    bgcolor: "#965ad3", // Slightly lighter purple on hover
+                    bgcolor: "#3355A8", // Slightly lighter purple on hover
                   },
                   m: 2,
                 }}
               >
-                View Events
+                Reservation Link
               </Button>
             </Card>
           </Grid>
