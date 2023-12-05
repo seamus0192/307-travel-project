@@ -112,6 +112,10 @@ const DayView: React.FC = () => {
     }
   }, [dayId]);
 
+  const handleCreateBtn = (): void => {
+    navigate("/itinerary/create-event", { state: { dayId } });
+  };
+
   return (
     <Container>
       <Button
@@ -128,6 +132,21 @@ const DayView: React.FC = () => {
         }}
       >
         Go Home
+      </Button>
+      <Button
+        variant="contained"
+        sx={{
+          backgroundColor: "#203973",
+          ":hover": {
+            bgcolor: "#3355A8",
+          },
+          mx: 1,
+        }}
+        onClick={() => {
+          handleCreateBtn();
+        }}
+      >
+        Create Event
       </Button>
       <Grid container spacing={2}>
         {events.map((event: Event) => (

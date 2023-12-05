@@ -17,6 +17,8 @@ import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import { createItinerary } from "../../httpClient/itinerary";
 import { useNavigate } from "react-router-dom";
+import { type Day, type Prisma } from "@prisma/client";
+import axios from "axios";
 
 interface IconItem {
   name: string;
@@ -33,18 +35,9 @@ function CreateItinerary(): React.ReactElement {
   const nav = useNavigate();
 
   const handleCreateButtonClick = (): void => {
-    console.log({
-      name: itenTitle,
-      icon,
-      endDate,
-      travelerCount: numTravelers,
-      location,
-      startDate,
-    });
-
-    const create = async (): Promise<void> => {
+    (async () => {
       try {
-        await createItinerary(
+        const itinerary = await createItinerary(
           {
             name: itenTitle,
             icon,
@@ -55,18 +48,29 @@ function CreateItinerary(): React.ReactElement {
           },
           localStorage.userId as number,
         );
+
+        // Generate the range of dates for the itinerary
+        const dateRange = generateDateRange(startDate, endDate);
+
+        // Create a day for each date in the range
+        for (const date of dateRange) {
+          await createDay({ date, icon: "some-default-icon" }, itinerary.id);
+        }
+
+        nav("/home");
       } catch (error) {
         console.error(error);
       }
-    };
-
-    create().catch(console.error);
-    nav("/home");
+    })().catch((error) => {
+      // Handle any additional errors that might occur
+      console.error("An unexpected error occurred:", error);
+    });
   };
 
   function formatDate(date: string | number | Date): string {
     if (date === "") return "";
 
+    console.log(date);
     const d = new Date(date);
     let month = "" + (d.getMonth() + 1);
     let day = "" + d.getDate();
@@ -77,6 +81,39 @@ function CreateItinerary(): React.ReactElement {
 
     return [year, month, day].join("-");
   }
+
+  const generateDateRange = (startDat: Date, endDate: Date): Date[] => {
+    const dates = [];
+    const currentDate = new Date(startDate.getTime());
+
+    while (true) {
+      dates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+      if (currentDate > endDate) {
+        break;
+      }
+    }
+    console.log(dates);
+    return dates;
+  };
+
+  const createDay = async (
+    day: Omit<Prisma.DayCreateInput, "itinerary">,
+    itineraryId: number,
+  ): Promise<Day> => {
+    const formattedDate =
+      day.date instanceof Date ? day.date.toISOString() : day.date;
+
+    const { data } = await axios.post<Day>(
+      `${process.env.REACT_APP_API_URL}/day/${itineraryId}`,
+      {
+        date: formattedDate,
+        icon: day.icon,
+      },
+    );
+
+    return data;
+  };
 
   const icons: IconItem[] = [
     {
