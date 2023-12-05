@@ -24,7 +24,7 @@ function LandingPage(): React.ReactElement {
         sx={{
           position: "absolute",
           top: "30%",
-          left: "5%",
+          left: "33%",
         }}
         display="flex"
         justifyContent="center"

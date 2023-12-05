@@ -75,20 +75,6 @@ const Header: React.FC = () => {
           >
             Create Itinerary
           </Button>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#7139a8",
-              ":hover": {
-                bgcolor: "#965ad3",
-              },
-              mx: 1,
-            }}
-            component={RouterLink}
-            to="/itinerary/create-event"
-          >
-            Create Event
-          </Button>
         </Box>
       </Toolbar>
     </AppBar>
