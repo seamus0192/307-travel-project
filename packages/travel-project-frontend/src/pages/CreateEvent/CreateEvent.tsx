@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, TextField, Button, Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { createEvent } from "../../httpClient/event";
@@ -12,8 +12,20 @@ function CreateEvent(): React.ReactElement {
   const [cost, setCost] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [description, setDescription] = useState("");
+  const [isValid, setIsValid] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const checkValidity =
+      eventTitle !== "" &&
+      startTime !== "" &&
+      endTime !== "" &&
+      cost !== "" &&
+      eventLocation !== "" &&
+      description !== "";
+    setIsValid(checkValidity);
+  }, [eventTitle, startTime, endTime, cost, description, eventLocation]);
 
   function handleCreateButtonClick(): void {
     (async () => {
@@ -25,7 +37,7 @@ function CreateEvent(): React.ReactElement {
           cost: parseFloat(cost),
           link: ticketLink,
           location: eventLocation,
-          description
+          description,
         };
 
         const dayId = parseInt(location.state?.dayId);
@@ -239,6 +251,7 @@ function CreateEvent(): React.ReactElement {
                 color="primary"
                 size="large"
                 onClick={handleCreateButtonClick}
+                disabled={!isValid}
                 sx={{
                   m: 2,
                   backgroundColor: "#203973",

@@ -89,7 +89,7 @@ const ItineraryOverview: React.FC = () => {
                   m: 2,
                 }}
               >
-                View Events
+                Reservation Link
               </Button>
             </Card>
           </Grid>
