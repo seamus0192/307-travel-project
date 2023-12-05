@@ -93,6 +93,7 @@ const DayView: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const navigate = useNavigate();
   const { dayId } = useParams<{ dayId: string }>(); // Get dayId from route parameters
+  const { itineraryId } = useParams<{ itineraryId: string }>();
 
   useEffect(() => {
     if (dayId !== null && dayId !== undefined) {
@@ -105,7 +106,9 @@ const DayView: React.FC = () => {
   }, [dayId]);
 
   const handleCreateBtn = (): void => {
-    navigate("/itinerary/create-event", { state: { dayId } });
+    navigate(`/itinerary/${itineraryId}/day/${dayId}/create-event`, {
+      state: { dayId },
+    });
   };
 
   return (
@@ -113,7 +116,7 @@ const DayView: React.FC = () => {
       <Button
         variant="contained"
         onClick={() => {
-          navigate("/");
+          navigate(`/itinerary/${itineraryId}`);
         }}
         sx={{
           m: 2,
@@ -123,7 +126,7 @@ const DayView: React.FC = () => {
           },
         }}
       >
-        Go Home
+        Go Back
       </Button>
       <Button
         variant="contained"
