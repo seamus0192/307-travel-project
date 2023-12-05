@@ -52,8 +52,8 @@ function CreateEvent(): React.ReactElement {
       try {
         const eventData = {
           name: eventType,
-          startTime: parseInt(startTime),
-          endTime: parseInt(endTime),
+          startTime,
+          endTime,
           cost: parseFloat(cost),
           link: ticketLink,
           location: eventLocation,

@@ -22,14 +22,6 @@ const BookingCard: React.FC<Event> = ({
   link,
   dayId,
 }) => {
-  function formatTime(time: number): React.ReactNode {
-    const date = new Date(time * 1000);
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? "PM" : "AM";
-    return `${hours}:${minutes} ${ampm}`;
-  }
-
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
@@ -55,10 +47,10 @@ const BookingCard: React.FC<Event> = ({
             {name}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Start Time: {formatTime(startTime)}
+            Start Time: {startTime}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            End Time: {formatTime(endTime)}
+            End Time: {endTime}
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Cost: ${cost}
