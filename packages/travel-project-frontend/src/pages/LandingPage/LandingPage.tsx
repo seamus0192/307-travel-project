@@ -13,8 +13,8 @@ function LandingPage(): React.ReactElement {
       <div
         className="image"
         style={{
-          height: "850px",
-          width: "900x",
+          height: "93vh",
+          width: "100%",
           backgroundImage: landing,
           backgroundSize: "100%",
           backgroundRepeat: "no-repeat",
@@ -22,6 +22,7 @@ function LandingPage(): React.ReactElement {
       ></div>
       <Box
         sx={{
+          position: "absolute",
           top: "30%",
           left: "33%",
         }}
