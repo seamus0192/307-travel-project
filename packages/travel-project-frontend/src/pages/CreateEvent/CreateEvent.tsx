@@ -1,62 +1,31 @@
 import React, { useState } from "react";
-import {
-  Container,
-  TextField,
-  Button,
-  Box,
-  Paper,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  type SelectChangeEvent,
-} from "@mui/material";
+import { Container, TextField, Button, Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-// import { getItineraries } from "../../httpClient/itinerary";
 import { createEvent } from "../../httpClient/event";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function CreateEvent(): React.ReactElement {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [eventType, setEventType] = useState("");
+  const [eventTitle, setEventTitle] = useState("");
   const [ticketLink, setTicketLink] = useState("");
   const [cost, setCost] = useState("");
   const [eventLocation, setEventLocation] = useState("");
-  // const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+  const [description, setDescription] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-
-  // useEffect(() => {
-  //   const fetchItineraries = async (): Promise<void> => {
-  //     try {
-  //       const userId = localStorage.getItem("userId");
-  //       if (userId !== null) {
-  //         const fetchedItineraries = await getItineraries(parseInt(userId));
-  //         setItineraries(fetchedItineraries);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching itineraries:", error);
-  //     }
-  //   };
-
-  //   fetchItineraries().catch(Error);
-  // }, []);
-
-  const handleChange = (event: SelectChangeEvent): void => {
-    setEventType(event.target.value);
-  };
 
   function handleCreateButtonClick(): void {
     (async () => {
       try {
         const eventData = {
-          name: eventType,
+          name: eventTitle,
           startTime,
           endTime,
           cost: parseFloat(cost),
           link: ticketLink,
           location: eventLocation,
+          description
         };
 
         const dayId = parseInt(location.state?.dayId);
@@ -69,7 +38,7 @@ function CreateEvent(): React.ReactElement {
   }
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Box
         display="flex"
         justifyContent="center"
@@ -87,6 +56,52 @@ function CreateEvent(): React.ReactElement {
             justifyContent="center"
           >
             <Grid container spacing={2}>
+              <Grid xs={6}>
+                <TextField
+                  label="Event Title"
+                  variant="outlined"
+                  value={eventTitle}
+                  onChange={(e) => {
+                    setEventTitle(e.target.value);
+                  }}
+                  margin="normal"
+                  fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid xs={6}>
+                <TextField
+                  label="Location"
+                  variant="outlined"
+                  value={eventLocation}
+                  onChange={(e) => {
+                    setEventLocation(e.target.value);
+                  }}
+                  margin="normal"
+                  fullWidth
+                  sx={{
+                    backgroundColor: "#fff", // Set background color to white
+                    "& .MuiOutlinedInput-root": {
+                      "&:hover fieldset": {
+                        borderColor: "#3355A8", // Optional: sets border color on hover
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "#203973", // Optional: sets border color when focused
+                      },
+                    },
+                  }}
+                />
+              </Grid>
               <Grid xs={3}>
                 <TextField
                   label="Start Time"
@@ -147,10 +162,16 @@ function CreateEvent(): React.ReactElement {
                   }}
                 />
               </Grid>
-              <Grid xs={12}>
-                <FormControl
+              <Grid xs={6}>
+                <TextField
+                  label="Estimated Cost"
+                  variant="outlined"
+                  value={cost}
+                  onChange={(e) => {
+                    setCost(e.target.value);
+                  }}
+                  margin="normal"
                   fullWidth
-                  required
                   sx={{
                     backgroundColor: "#fff", // Set background color to white
                     "& .MuiOutlinedInput-root": {
@@ -162,24 +183,7 @@ function CreateEvent(): React.ReactElement {
                       },
                     },
                   }}
-                >
-                  <InputLabel id="demo-simple-select-label">
-                    EventType
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={eventType}
-                    label="Event Type*"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={"Conference"}>Conference</MenuItem>
-                    <MenuItem value={"Drive"}>Drive</MenuItem>
-                    <MenuItem value={"Concert"}>Concert</MenuItem>
-                    <MenuItem value={"Hotel"}>Hotel</MenuItem>
-                    <MenuItem value={"Flight"}>Flight</MenuItem>
-                  </Select>
-                </FormControl>
+                />
               </Grid>
               <Grid xs={12}>
                 <TextField
@@ -206,45 +210,24 @@ function CreateEvent(): React.ReactElement {
               </Grid>
               <Grid xs={12}>
                 <TextField
-                  label="Cost"
+                  label="More Info/ Notes" // Changed label to reflect paragraph input
                   variant="outlined"
-                  value={cost}
+                  value={description}
                   onChange={(e) => {
-                    setCost(e.target.value);
+                    setDescription(e.target.value);
                   }}
                   margin="normal"
                   fullWidth
+                  multiline
+                  rows={3}
                   sx={{
-                    backgroundColor: "#fff", // Set background color to white
+                    backgroundColor: "#fff",
                     "& .MuiOutlinedInput-root": {
                       "&:hover fieldset": {
-                        borderColor: "#3355A8", // Optional: sets border color on hover
+                        borderColor: "#3355A8",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#203973", // Optional: sets border color when focused
-                      },
-                    },
-                  }}
-                />
-              </Grid>
-              <Grid xs={12}>
-                <TextField
-                  label="Location"
-                  variant="outlined"
-                  value={eventLocation}
-                  onChange={(e) => {
-                    setEventLocation(e.target.value);
-                  }}
-                  margin="normal"
-                  fullWidth
-                  sx={{
-                    backgroundColor: "#fff", // Set background color to white
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: "#3355A8", // Optional: sets border color on hover
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#203973", // Optional: sets border color when focused
+                        borderColor: "#203973",
                       },
                     },
                   }}
