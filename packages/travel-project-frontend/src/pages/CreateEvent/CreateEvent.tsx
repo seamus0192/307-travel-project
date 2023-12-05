@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   TextField,
@@ -12,44 +12,42 @@ import {
   type SelectChangeEvent,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import { getItineraries } from "../../httpClient/itinerary";
+// import { getItineraries } from "../../httpClient/itinerary";
 import { createEvent } from "../../httpClient/event";
-import { type Itinerary } from "@prisma/client";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function CreateEvent(): React.ReactElement {
-  const [itenId, setItenId] = useState("");
-  const [day, setDay] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [eventType, setEventType] = useState("");
   const [ticketLink, setTicketLink] = useState("");
   const [cost, setCost] = useState("");
   const [eventLocation, setEventLocation] = useState("");
-  const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+  // const [itineraries, setItineraries] = useState<Itinerary[]>([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
-    const fetchItineraries = async (): Promise<void> => {
-      try {
-        const userId = localStorage.getItem("userId");
-        if (userId !== null) {
-          const fetchedItineraries = await getItineraries(parseInt(userId));
-          setItineraries(fetchedItineraries);
-        }
-      } catch (error) {
-        console.error("Error fetching itineraries:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchItineraries = async (): Promise<void> => {
+  //     try {
+  //       const userId = localStorage.getItem("userId");
+  //       if (userId !== null) {
+  //         const fetchedItineraries = await getItineraries(parseInt(userId));
+  //         setItineraries(fetchedItineraries);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching itineraries:", error);
+  //     }
+  //   };
 
-    fetchItineraries().catch(Error);
-  }, []);
+  //   fetchItineraries().catch(Error);
+  // }, []);
 
   const handleChange = (event: SelectChangeEvent): void => {
     setEventType(event.target.value);
   };
 
-  const handleCreateButtonClick = (): void => {
+  function handleCreateButtonClick(): void {
     (async () => {
       try {
         const eventData = {
@@ -61,14 +59,14 @@ function CreateEvent(): React.ReactElement {
           location: eventLocation,
         };
 
-        const dayId = parseInt(day);
+        const dayId = parseInt(location.state?.dayId);
         await createEvent(eventData, dayId);
-        navigate(`/itinerary/${itenId}`);
+        navigate(`/day/${dayId}`);
       } catch (error) {
         console.error("Error creating event:", error);
       }
     })().catch(Error);
-  };
+  }
 
   return (
     <Container maxWidth="sm">
@@ -89,66 +87,10 @@ function CreateEvent(): React.ReactElement {
             justifyContent="center"
           >
             <Grid container spacing={2}>
-              {/* Itinerary Select Field */}
-              <Grid xs={8}>
-                <FormControl
-                  fullWidth
-                  sx={{
-                    backgroundColor: "#fff", // Set background color to white
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: "#3355A8", // Optional: sets border color on hover
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#203973", // Optional: sets border color when focused
-                      },
-                    },
-                  }}
-                >
-                  <InputLabel id="select-itinerary-label">Itinerary</InputLabel>
-                  <Select
-                    labelId="select-itinerary-label"
-                    id="select-itinerary"
-                    value={itenId}
-                    label="Itinerary"
-                    onChange={(e) => {
-                      setItenId(e.target.value);
-                    }}
-                  >
-                    {itineraries.map((itinerary) => (
-                      <MenuItem key={itinerary.id} value={itinerary.id}>
-                        {itinerary.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid xs={8}>
-                <TextField
-                  label="Day"
-                  variant="outlined"
-                  value={day}
-                  onChange={(e) => {
-                    setDay(e.target.value);
-                  }}
-                  margin="normal"
-                  fullWidth
-                  sx={{
-                    backgroundColor: "#fff", // Set background color to white
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: "#3355A8", // Optional: sets border color on hover
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#203973", // Optional: sets border color when focused
-                      },
-                    },
-                  }}
-                />
-              </Grid>
               <Grid xs={3}>
                 <TextField
                   label="Start Time"
+                  type="time"
                   variant="outlined"
                   value={startTime}
                   onChange={(e) => {
@@ -156,14 +98,20 @@ function CreateEvent(): React.ReactElement {
                   }}
                   margin="normal"
                   fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    step: 300,
+                  }}
                   sx={{
-                    backgroundColor: "#fff", // Set background color to white
+                    backgroundColor: "#fff",
                     "& .MuiOutlinedInput-root": {
                       "&:hover fieldset": {
-                        borderColor: "#3355A8", // Optional: sets border color on hover
+                        borderColor: "#3355A8",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#203973", // Optional: sets border color when focused
+                        borderColor: "#203973",
                       },
                     },
                   }}
@@ -172,6 +120,7 @@ function CreateEvent(): React.ReactElement {
               <Grid xs={3}>
                 <TextField
                   label="End Time"
+                  type="time"
                   variant="outlined"
                   value={endTime}
                   onChange={(e) => {
@@ -179,14 +128,20 @@ function CreateEvent(): React.ReactElement {
                   }}
                   margin="normal"
                   fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    step: 300,
+                  }}
                   sx={{
-                    backgroundColor: "#fff", // Set background color to white
+                    backgroundColor: "#fff",
                     "& .MuiOutlinedInput-root": {
                       "&:hover fieldset": {
-                        borderColor: "#3355A8", // Optional: sets border color on hover
+                        borderColor: "#3355A8",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "#203973", // Optional: sets border color when focused
+                        borderColor: "#203973",
                       },
                     },
                   }}

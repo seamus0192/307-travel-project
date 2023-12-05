@@ -22,7 +22,8 @@ const ItineraryOverview: React.FC = () => {
       try {
         // Check if itineraryId is defined and is a valid string
         if (itineraryId !== null && itineraryId !== undefined) {
-          const id = parseInt(itineraryId.substring(1), 10);
+          const id = parseInt(itineraryId.substring(0), 10);
+          // console.log(id);
           if (!isNaN(id)) {
             const fetchedDays = await getDays(id);
             const formattedDays = fetchedDays.map((day) => ({
@@ -30,14 +31,13 @@ const ItineraryOverview: React.FC = () => {
               // Convert day.date to a Date object and then to an ISO string
               date: day.date,
             }));
+            // console.log(formattedDays);
             setDays(formattedDays);
           } else {
             console.error("Invalid itineraryId");
-            // Handle invalid itineraryId
           }
         } else {
           console.error("itineraryId is undefined");
-          // Handle undefined itineraryId
         }
       } catch (error) {
         console.error("Error fetching days:", error);
