@@ -22,9 +22,10 @@ function LandingPage(): React.ReactElement {
       ></div>
       <Box
         sx={{
-          position: "absolute",
+          position: "absolute" as const,
           top: "30%",
-          left: "33%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
         }}
         display="flex"
         justifyContent="center"
