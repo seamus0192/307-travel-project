@@ -1,34 +1,26 @@
 // import styles from './Login.module.css'
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { TextField, Button, Paper, Box, Typography, Link } from "@mui/material";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { setAuthToken } from "../../httpClient/axiosConfig";
+import { Link as RouterLink } from "react-router-dom";
 import { loginUser } from "../../httpClient/user";
+import { authContext } from "../../authContext/authContext";
 
 function Login(): JSX.Element {
+  const { login } = useContext(authContext);
+
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const nav = useNavigate();
 
-  const handleLoginButtonClick = async (): Promise<void> => {
-    try {
-      const response = await loginUser({ username: email, password });
-
-      console.log("Login successful:", response);
-      localStorage.setItem("token", response.token ?? "");
-      localStorage.setItem("userId", response.id.toString());
-      setAuthToken();
-      nav("/home");
-    } catch (error) {
-      setError("Incorrect username or password");
-      console.error("Login failed");
-      console.error("Network error:", error);
-    }
-  };
-
-  const login = (): void => {
-    handleLoginButtonClick().catch(Error); // Call the async function without awaiting it
+  const handleLoginButtonClick = (): void => {
+    loginUser({ username: email, password })
+      .then((response) => {
+        login(response);
+      })
+      .catch((error) => {
+        console.error("Login failed", error);
+        setError("Login failed");
+      });
   };
 
   return (
@@ -104,7 +96,7 @@ function Login(): JSX.Element {
         />
         {error != null && <div className="error-message">{error}</div>}
         <Button
-          onClick={login}
+          onClick={handleLoginButtonClick}
           variant="contained"
           sx={{
             mt: 2,

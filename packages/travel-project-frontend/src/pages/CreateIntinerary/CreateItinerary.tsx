@@ -1,5 +1,5 @@
 // import styles from "./CreateItinerary.module.css"
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container, TextField, Button, Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import IconSelection from "../../components/IconSelection/IconSelection";
@@ -19,6 +19,7 @@ import { createItinerary } from "../../httpClient/itinerary";
 import { useNavigate } from "react-router-dom";
 import { type Day, type Prisma } from "@prisma/client";
 import axios from "axios";
+import { authContext } from "../../authContext/authContext";
 
 interface IconItem {
   name: string;
@@ -26,6 +27,8 @@ interface IconItem {
 }
 
 function CreateItinerary(): React.ReactElement {
+  const { user } = useContext(authContext);
+
   const [itenTitle, setItenTitle] = useState("");
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
@@ -49,27 +52,29 @@ function CreateItinerary(): React.ReactElement {
   const handleCreateButtonClick = (): void => {
     (async () => {
       try {
-        const itinerary = await createItinerary(
-          {
-            name: itenTitle,
-            icon,
-            endDate,
-            travelerCount: numTravelers,
-            location,
-            startDate,
-          },
-          localStorage.userId as number,
-        );
+        if (user !== null) {
+          const itinerary = await createItinerary(
+            {
+              name: itenTitle,
+              icon,
+              endDate,
+              travelerCount: numTravelers,
+              location,
+              startDate,
+            },
+            user.id,
+          );
 
-        // Generate the range of dates for the itinerary
-        const dateRange = generateDateRange(startDate, endDate);
+          // Generate the range of dates for the itinerary
+          const dateRange = generateDateRange(startDate, endDate);
 
-        // Create a day for each date in the range
-        for (const date of dateRange) {
-          await createDay({ date, icon: "some-default-icon" }, itinerary.id);
+          // Create a day for each date in the range
+          for (const date of dateRange) {
+            await createDay({ date, icon: "some-default-icon" }, itinerary.id);
+          }
+
+          nav("/home");
         }
-
-        nav("/home");
       } catch (error) {
         console.error(error);
       }
