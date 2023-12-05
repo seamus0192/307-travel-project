@@ -8,7 +8,7 @@ import {
   Box,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import VacationTrackerLogo from "../../assets/vacation_tracker.jpg";
+import VacationTrackerLogo from "../../assets/Vacation Tracker Background Remover.png";
 
 const Header: React.FC = () => {
   return (

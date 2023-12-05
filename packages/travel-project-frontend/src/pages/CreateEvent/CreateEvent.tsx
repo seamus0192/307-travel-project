@@ -41,8 +41,9 @@ function CreateEvent(): React.ReactElement {
         };
 
         const dayId = parseInt(location.state?.dayId);
+        const itenId = parseInt(location.state?.itineraryId);
         await createEvent(eventData, dayId);
-        navigate(`/day/${dayId}`);
+        navigate(`/itinerary/${itenId}/day/${dayId}/`);
       } catch (error) {
         console.error("Error creating event:", error);
       }
