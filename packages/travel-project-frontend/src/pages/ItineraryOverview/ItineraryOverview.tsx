@@ -9,6 +9,7 @@ import {
   Typography,
   Button,
   Container,
+  Box,
 } from "@mui/material";
 import { type Day } from "@prisma/client";
 
@@ -52,6 +53,17 @@ const ItineraryOverview: React.FC = () => {
   return (
     <Container style={{ marginTop: "20px" }}>
       {/* Added margin to the top */}
+      <Box sx={{ display: "flex", justifyContent: "flex-start", mb: 2 }}>
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: "#203973", ":hover": { bgcolor: "#3355A8" } }}
+          onClick={() => {
+            navigate("/home");
+          }}
+        >
+          Go Back
+        </Button>
+      </Box>
       <Grid container spacing={2}>
         {days.map((day, index) => (
           <Grid item key={day.id} xs={12} sm={6} md={4} lg={3}>
@@ -68,7 +80,7 @@ const ItineraryOverview: React.FC = () => {
                 },
               }}
               onClick={() => {
-                navigate(`/day/${day.id}`);
+                navigate(`/itinerary/${itineraryId}/day/${day.id}`);
               }}
             >
               <CardContent>
