@@ -9,8 +9,7 @@ import {
   Link,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import { Modal } from "@mui/base/Modal";
-import VacationTrackerLogo from "../../assets/vacation_tracker.jpg";
+import VacationTrackerLogo from "../../assets/Vacation Tracker Background Remover.png";
 
 const style = {
   position: "absolute" as const,

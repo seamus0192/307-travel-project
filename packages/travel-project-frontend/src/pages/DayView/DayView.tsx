@@ -14,13 +14,11 @@ import { type Event } from "@prisma/client";
 
 // DayCard component
 const BookingCard: React.FC<Event> = ({
-  id,
   name,
   startTime,
   endTime,
   cost,
   link,
-  dayId,
 }) => {
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -55,6 +53,9 @@ const BookingCard: React.FC<Event> = ({
           <Typography variant="body1" color="text.secondary">
             Cost: ${cost}
           </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Location: ${cost}
+          </Typography>
         </CardContent>
         {link !== null && link !== "" && (
           <Box
@@ -80,7 +81,7 @@ const BookingCard: React.FC<Event> = ({
               target="_blank"
               fullWidth
             >
-              View Details
+              Reservation Link
             </Button>
           </Box>
         )}
@@ -107,7 +108,7 @@ const DayView: React.FC = () => {
 
   const handleCreateBtn = (): void => {
     navigate(`/itinerary/${itineraryId}/day/${dayId}/create-event`, {
-      state: { dayId },
+      state: { dayId, itineraryId },
     });
   };
 

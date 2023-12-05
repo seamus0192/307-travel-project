@@ -127,6 +127,17 @@ function CreateItinerary(): React.ReactElement {
     return data;
   };
 
+  const handleDateChange = (
+    dateString: string,
+    setDate: React.Dispatch<React.SetStateAction<Date>>,
+  ): void => {
+    const localDate = new Date(dateString);
+    localDate.setMinutes(
+      localDate.getMinutes() + localDate.getTimezoneOffset(),
+    );
+    setDate(localDate);
+  };
+
   const icons: IconItem[] = [
     {
       name: "Forest",
@@ -235,7 +246,7 @@ function CreateItinerary(): React.ReactElement {
                   variant="outlined"
                   value={formatDate(startDate)} // Format the date for the input
                   onChange={(e) => {
-                    setStartDate(new Date(e.target.value)); // e.target.value is in YYYY-MM-DD format
+                    handleDateChange(e.target.value, setStartDate);
                   }}
                   margin="normal"
                   fullWidth
@@ -262,7 +273,7 @@ function CreateItinerary(): React.ReactElement {
                   variant="outlined"
                   value={formatDate(endDate)} // Format the date for the input
                   onChange={(e) => {
-                    setEndDate(new Date(e.target.value)); // e.target.value is in YYYY-MM-DD format
+                    handleDateChange(e.target.value, setEndDate);
                   }}
                   margin="normal"
                   fullWidth
