@@ -6,11 +6,32 @@ import {
   Typography,
   IconButton,
   Box,
+  Link,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import VacationTrackerLogo from "../../assets/Vacation Tracker Background Remover.png";
 
+const style = {
+  position: "absolute" as const,
+  top: "30%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "1px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
 const Header: React.FC = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen: () => void = () => {
+    setOpen(true);
+  };
+  const handleClose: () => void = () => {
+    setOpen(false);
+  };
+
   return (
     <AppBar
       position="static"
@@ -51,36 +72,34 @@ const Header: React.FC = () => {
             Vacation Tracker
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <div>
           <Button
             variant="contained"
             sx={{
-              backgroundColor: "#203973",
+              backgroundColor: "#7139a8",
               ":hover": {
-                bgcolor: "#3355A8",
+                bgcolor: "#965ad3",
               },
               mx: 1,
             }}
-            component={RouterLink}
-            to="/login"
+            onClick={handleOpen}
           >
-            Login / Sign Up
+            Open modal
           </Button>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#203973",
-              ":hover": {
-                bgcolor: "#3355A8",
-              },
-              mx: 1,
-            }}
-            component={RouterLink}
-            to="/create-itinerary"
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
           >
-            Create Itinerary
-          </Button>
-        </Box>
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                References:
+              </Typography>
+              <Link href="https://www.expedia.com">Expedia</Link>
+            </Box>
+          </Modal>
+        </div>
       </Toolbar>
     </AppBar>
   );
