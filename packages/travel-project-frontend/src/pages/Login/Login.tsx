@@ -110,7 +110,7 @@ function Login(): JSX.Element {
         </Button>
         <Typography variant="body2">
           Don&apos;t have an account?{" "}
-          <Link component={RouterLink} to="/signup" color="secondary">
+          <Link component={RouterLink} to="/signup" color="#203973">
             Sign up
           </Link>
         </Typography>

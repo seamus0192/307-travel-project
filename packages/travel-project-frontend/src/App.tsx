@@ -13,7 +13,7 @@ import CreateEvent from "./pages/CreateEvent/CreateEvent";
 import Signup from "./pages/SignUp/SignUp";
 
 import Header from "./components/Header/Header";
-import Footer from "./components/Footer/Footer";
+// import Footer from "./components/Footer/Footer";
 import { authContext, AuthProvider } from "./authContext/authContext";
 
 function App(): JSX.Element {
@@ -87,8 +87,8 @@ function App(): JSX.Element {
             }
           />
         </Routes>
-        <Footer />
       </AuthProvider>
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }
