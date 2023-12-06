@@ -9,7 +9,7 @@ function CreateEvent(): React.ReactElement {
   const [endTime, setEndTime] = useState("");
   const [eventTitle, setEventTitle] = useState("");
   const [ticketLink, setTicketLink] = useState("");
-  const [cost, setCost] = useState(0);
+  const [cost, setCost] = useState<string>("");
   const [eventLocation, setEventLocation] = useState("");
   const [description, setDescription] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -24,7 +24,7 @@ function CreateEvent(): React.ReactElement {
           name: eventTitle,
           startTime,
           endTime,
-          cost,
+          cost: parseInt(cost),
           link: ticketLink,
           description,
         };
@@ -171,7 +171,7 @@ function CreateEvent(): React.ReactElement {
                   inputMode="numeric"
                   value={cost}
                   onChange={(e) => {
-                    setCost(parseInt(e.target.value));
+                    setCost(e.target.value);
                   }}
                   margin="normal"
                   fullWidth
