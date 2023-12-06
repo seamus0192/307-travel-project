@@ -132,6 +132,9 @@ function HomePage(): JSX.Element {
       setItineraries(
         itineraries.filter((itinerary) => itinerary.id !== itineraryId),
       );
+      setOriginalItineraries(
+        itineraries.filter((itinerary) => itinerary.id !== itineraryId),
+      );
     } catch (error) {
       console.error("Error deleting itinerary:", error);
     }

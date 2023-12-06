@@ -94,7 +94,7 @@ const BookingCard: React.FC<
             Cost: ${cost}
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Description: {truncatedDescription}
+            Notes: {truncatedDescription}
           </Typography>
           {description !== null && description.length > 50 && (
             <Button onClick={handleOpen} size="small">

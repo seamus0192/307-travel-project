@@ -45,6 +45,7 @@ function Signup(): JSX.Element {
           gap: 2,
           minWidth: "300px",
           maxWidth: "400px",
+          backgroundColor: "#daeee7",
         }}
       >
         <Typography variant="h5" component="h1" gutterBottom>
@@ -61,6 +62,17 @@ function Signup(): JSX.Element {
           required
           margin="normal"
           type="email"
+          sx={{
+            backgroundColor: "#fff", // Set background color to white
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "#3355A8", // Optional: sets border color on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#203973", // Optional: sets border color when focused
+              },
+            },
+          }}
         />
         <TextField
           label="Password"
@@ -73,6 +85,17 @@ function Signup(): JSX.Element {
           required
           margin="normal"
           type="password"
+          sx={{
+            backgroundColor: "#fff", // Set background color to white
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "#3355A8", // Optional: sets border color on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#203973", // Optional: sets border color when focused
+              },
+            },
+          }}
         />
         <TextField
           label="Confirm Password"
@@ -85,6 +108,17 @@ function Signup(): JSX.Element {
           required
           margin="normal"
           type="password"
+          sx={{
+            backgroundColor: "#fff", // Set background color to white
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "#3355A8", // Optional: sets border color on hover
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: "#203973", // Optional: sets border color when focused
+              },
+            },
+          }}
         />
         <Button
           onClick={handleSignupButtonClick}
@@ -101,7 +135,7 @@ function Signup(): JSX.Element {
         </Button>
         <Typography variant="body2">
           Already have an account?{" "}
-          <Link component={RouterLink} to="/login" color="secondary">
+          <Link component={RouterLink} to="/login" color="#203973">
             Log in
           </Link>
         </Typography>
