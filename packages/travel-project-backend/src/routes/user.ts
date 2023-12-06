@@ -1,6 +1,7 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
 import { generateAccessToken } from "../auth";
+import bcrypt from "bcrypt";
 
 const userRouter = express.Router();
 const prisma = new PrismaClient();
@@ -13,7 +14,7 @@ userRouter.post("/", async (req, res) => {
     const user = await prisma.user.create({
       data: {
         username,
-        password,
+        password: await bcrypt.hash(password, 10),
         token,
       },
     });
@@ -27,24 +28,26 @@ userRouter.post("/", async (req, res) => {
 userRouter.put("/", async (req, res) => {
   const { username, password } = req.body;
   try {
-    await prisma.user.findUniqueOrThrow({
-      where: {
-        username,
-        password,
-      },
-    });
+    const user = await prisma.user.findUnique({ where: { username } });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid username or password" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).json({ error: "Invalid username or password" });
+    }
+
     const token = await generateAccessToken(username);
-    const user = await prisma.user.update({
-      where: {
-        username,
-      },
-      data: {
-        token,
-      },
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { token },
     });
-    res.json({ token: user.token, id: user.id });
+
+    res.json({ token, id: user.id });
   } catch (error) {
     console.log(error);
+    res.status(500).send("Server error");
   }
 });
 
