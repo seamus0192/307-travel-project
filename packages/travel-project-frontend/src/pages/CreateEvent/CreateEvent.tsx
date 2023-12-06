@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Container, TextField, Button, Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { createEvent } from "../../httpClient/event";
@@ -9,32 +9,22 @@ function CreateEvent(): React.ReactElement {
   const [endTime, setEndTime] = useState("");
   const [eventTitle, setEventTitle] = useState("");
   const [ticketLink, setTicketLink] = useState("");
-  const [cost, setCost] = useState("");
+  const [cost, setCost] = useState(0);
   const [eventLocation, setEventLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const checkValidity =
-      eventTitle !== "" &&
-      startTime !== "" &&
-      endTime !== "" &&
-      cost !== "" &&
-      eventLocation !== "" &&
-      description !== "";
-    setIsValid(checkValidity);
-  }, [eventTitle, startTime, endTime, cost, description, eventLocation]);
-
   function handleCreateButtonClick(): void {
     (async () => {
+      setIsValid(false);
       try {
         const eventData = {
           name: eventTitle,
           startTime,
           endTime,
-          cost: parseFloat(cost),
+          cost,
           link: ticketLink,
           description,
         };
@@ -178,9 +168,10 @@ function CreateEvent(): React.ReactElement {
                 <TextField
                   label="Estimated Cost"
                   variant="outlined"
+                  inputMode="numeric"
                   value={cost}
                   onChange={(e) => {
-                    setCost(e.target.value);
+                    setCost(parseInt(e.target.value));
                   }}
                   margin="normal"
                   fullWidth
@@ -251,7 +242,12 @@ function CreateEvent(): React.ReactElement {
                 color="primary"
                 size="large"
                 onClick={handleCreateButtonClick}
-                disabled={!isValid}
+                disabled={
+                  eventTitle === "" ||
+                  startTime === "" ||
+                  endTime === "" ||
+                  !isValid
+                }
                 sx={{
                   m: 2,
                   backgroundColor: "#203973",
