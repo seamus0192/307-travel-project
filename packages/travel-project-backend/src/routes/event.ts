@@ -22,7 +22,7 @@ eventRouter.get("/:dayId", async (req, res) => {
 
 eventRouter.post("/:dayId", async (req, res) => {
   const { dayId } = req.params;
-  const { name, startTime, endTime, cost, link } = req.body;
+  const { name, startTime, endTime, cost, link, description } = req.body;
   try {
     const newEvent = await prisma.event.create({
       data: {
@@ -31,6 +31,7 @@ eventRouter.post("/:dayId", async (req, res) => {
         endTime,
         cost,
         link,
+        description,
         day: {
           connect: {
             id: parseInt(dayId),
@@ -46,7 +47,7 @@ eventRouter.post("/:dayId", async (req, res) => {
 
 eventRouter.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { name, startTime, endTime, cost, link } = req.body;
+  const { name, startTime, endTime, cost, link, description } = req.body;
   try {
     const updatedEvent = await prisma.event.update({
       where: {
@@ -58,6 +59,7 @@ eventRouter.put("/:id", async (req, res) => {
         endTime,
         cost,
         link,
+        description,
       },
     });
     res.json(updatedEvent);
