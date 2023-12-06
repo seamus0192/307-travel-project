@@ -174,6 +174,11 @@ function HomePage(): JSX.Element {
           variant="contained"
           sx={{
             backgroundColor: "#7139a8",
+            position: "relative",
+            fontSize: "1.25rem",
+            top: "-2rem",
+            width: "15rem",
+            height: "5rem",
             ":hover": {
               bgcolor: "#965ad3",
             },
