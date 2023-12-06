@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // import styles from "./CreateItinerary.module.css"
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container, TextField, Button, Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import IconSelection from "../../components/IconSelection/IconSelection";
@@ -17,184 +18,114 @@ import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import { createItinerary } from "../../httpClient/itinerary";
 import { useNavigate } from "react-router-dom";
-import { type Day, type Prisma } from "@prisma/client";
-import axios from "axios";
 import { authContext } from "../../authContext/authContext";
+import { createDay } from "../../httpClient/day";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { type Dayjs } from "dayjs";
 
 interface IconItem {
   name: string;
   icon: React.ReactElement;
 }
 
+const icons: IconItem[] = [
+  {
+    name: "Forest",
+    icon: <ForestIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Beach",
+    icon: <BeachAccessIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Hike",
+    icon: <NordicWalkingIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Explore",
+    icon: <EmojiTransportationIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Cabin",
+    icon: <CabinIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Ski",
+    icon: <SnowshoeingIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Village",
+    icon: <HolidayVillageIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Cold",
+    icon: <AcUnitIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Travel",
+    icon: <TravelExploreIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Sea",
+    icon: <AnchorIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "Boat",
+    icon: <DirectionsBoatIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+  {
+    name: "City",
+    icon: <LocationCityIcon style={{ height: "5rem", width: "5rem" }} />,
+  },
+];
+
 function CreateItinerary(): React.ReactElement {
   const { user } = useContext(authContext);
 
   const [itenTitle, setItenTitle] = useState("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [location, setLocation] = useState("");
   const [numTravelers, setNumTravelers] = useState(0);
   const [icon, setIcon] = useState("");
   const nav = useNavigate();
-  const [isValid, setIsValid] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
-  useEffect(() => {
-    const checkValidity =
-      itenTitle !== "" &&
-      startDate !== new Date() &&
-      endDate !== new Date() &&
-      location !== "" &&
-      icon !== "" &&
-      numTravelers !== 0;
-    setIsValid(checkValidity);
-  }, [itenTitle, startDate, endDate, location, icon, numTravelers]);
+  const handleButtonClick = (): void => {
+    const addItinerary = async (): Promise<void> => {
+      setIsDisabled(true);
+      const itinerary = await createItinerary(
+        {
+          name: itenTitle,
+          startDate: startDate!.toDate(),
+          endDate: endDate!.toDate(),
+          location,
+          travelerCount: numTravelers,
+          icon,
+        },
+        user!.id,
+      );
 
-  const handleCreateButtonClick = (): void => {
-    (async () => {
-      try {
-        if (user !== null) {
-          const itinerary = await createItinerary(
-            {
-              name: itenTitle,
-              icon,
-              endDate,
-              travelerCount: numTravelers,
-              location,
-              startDate,
-            },
-            user.id,
-          );
-
-          // Generate the range of dates for the itinerary
-          const dateRange = generateDateRange(startDate, endDate);
-
-          // Create a day for each date in the range
-          for (const date of dateRange) {
-            await createDay({ date, icon: "some-default-icon" }, itinerary.id);
-          }
-
-          nav("/home");
-        }
-      } catch (error) {
-        console.error(error);
+      // Create day objects for each day in the itinerary
+      const endDay = endDate!.add(1, "day");
+      let currentDay = startDate!;
+      while (currentDay.isBefore(endDay)) {
+        await createDay(
+          {
+            date: currentDay.toDate(),
+            icon,
+          },
+          itinerary.id,
+        );
+        currentDay = currentDay.add(1, "day");
       }
-    })().catch((error) => {
-      // Handle any additional errors that might occur
-      console.error("An unexpected error occurred:", error);
-    });
+
+      nav("/home");
+    };
+    void addItinerary();
   };
-
-  function formatDate(date: string | number | Date): string {
-    if (date === "") return "";
-
-    console.log(date);
-    const d = new Date(date);
-    let month = "" + (d.getMonth() + 1);
-    let day = "" + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [year, month, day].join("-");
-  }
-
-  const generateDateRange = (startDat: Date, endDate: Date): Date[] => {
-    const dates = [];
-    const currentDate = new Date(startDate.getTime());
-
-    while (true) {
-      dates.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
-      if (currentDate > endDate) {
-        break;
-      }
-    }
-    console.log(dates);
-    return dates;
-  };
-
-  const createDay = async (
-    day: Omit<Prisma.DayCreateInput, "itinerary">,
-    itineraryId: number,
-  ): Promise<Day> => {
-    const formattedDate =
-      day.date instanceof Date ? day.date.toISOString() : day.date;
-
-    const { data } = await axios.post<Day>(
-      `${process.env.REACT_APP_API_URL}/day/${itineraryId}`,
-      {
-        date: formattedDate,
-        icon: day.icon,
-      },
-    );
-
-    return data;
-  };
-
-  const handleDateChange = (
-    dateString: string,
-    setDate: React.Dispatch<React.SetStateAction<Date>>,
-  ): void => {
-    const localDate = new Date(dateString);
-    localDate.setMinutes(
-      localDate.getMinutes() + localDate.getTimezoneOffset(),
-    );
-    setDate(localDate);
-  };
-
-  const icons: IconItem[] = [
-    {
-      name: "Forest",
-      icon: <ForestIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Beach",
-      icon: <BeachAccessIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Hike",
-      icon: <NordicWalkingIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Explore",
-      icon: (
-        <EmojiTransportationIcon style={{ height: "5rem", width: "5rem" }} />
-      ),
-    },
-    {
-      name: "Cabin",
-      icon: <CabinIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Ski",
-      icon: <SnowshoeingIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Village",
-      icon: <HolidayVillageIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Cold",
-      icon: <AcUnitIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Travel",
-      icon: <TravelExploreIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Sea",
-      icon: <AnchorIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "Boat",
-      icon: <DirectionsBoatIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-    {
-      name: "City",
-      icon: <LocationCityIcon style={{ height: "5rem", width: "5rem" }} />,
-    },
-  ];
 
   return (
     <Container maxWidth="md">
@@ -220,7 +151,12 @@ function CreateItinerary(): React.ReactElement {
                 setIcon(selectedIconName);
               }}
             />
-            <Grid container spacing={2}>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
               <Grid xs={12}>
                 <TextField
                   label="Itinerary Title"
@@ -245,58 +181,20 @@ function CreateItinerary(): React.ReactElement {
                 />
               </Grid>
               <Grid xs={3}>
-                <TextField
-                  label="Start Date (DD/MM/YYYY)"
-                  type="date"
-                  variant="outlined"
-                  value={formatDate(startDate)} // Format the date for the input
-                  onChange={(e) => {
-                    handleDateChange(e.target.value, setStartDate);
-                  }}
-                  margin="normal"
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  sx={{
-                    backgroundColor: "#fff", // Set background color to white
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: "#3355A8", // Optional: sets border color on hover
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#203973", // Optional: sets border color when focused
-                      },
-                    },
-                  }}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    sx={{ color: "white", backgroundColor: "white" }}
+                    onChange={setStartDate}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid xs={3}>
-                <TextField
-                  label="End Date (DD/MM/YYYY)"
-                  type="date"
-                  variant="outlined"
-                  value={formatDate(endDate)} // Format the date for the input
-                  onChange={(e) => {
-                    handleDateChange(e.target.value, setEndDate);
-                  }}
-                  margin="normal"
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  sx={{
-                    backgroundColor: "#fff", // Set background color to white
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: "#3355A8", // Optional: sets border color on hover
-                      },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#203973", // Optional: sets border color when focused
-                      },
-                    },
-                  }}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    sx={{ color: "white", backgroundColor: "white" }}
+                    onChange={setEndDate}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid xs={6}>
                 <TextField
@@ -350,8 +248,15 @@ function CreateItinerary(): React.ReactElement {
               variant="contained"
               color="primary"
               size="large"
-              onClick={handleCreateButtonClick}
-              disabled={!isValid}
+              onClick={handleButtonClick}
+              disabled={
+                icon === "" ||
+                itenTitle === "" ||
+                startDate === null ||
+                endDate === null ||
+                numTravelers === 0 ||
+                isDisabled
+              }
               sx={{
                 m: 2,
                 backgroundColor: "#203973",
