@@ -36,7 +36,6 @@ function CreateEvent(): React.ReactElement {
           endTime,
           cost: parseFloat(cost),
           link: ticketLink,
-          location: eventLocation,
           description,
         };
 
