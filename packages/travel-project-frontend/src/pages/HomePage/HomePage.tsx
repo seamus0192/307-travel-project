@@ -153,6 +153,7 @@ function HomePage(): JSX.Element {
           />
           <Button
             sx={{
+              fontSize: "1rem",
               backgroundColor: "#203973",
               ":hover": {
                 bgcolor: "#3355A8",
@@ -173,14 +174,14 @@ function HomePage(): JSX.Element {
         <Button
           variant="contained"
           sx={{
-            backgroundColor: "#7139a8",
             position: "relative",
             fontSize: "1.25rem",
             top: "-2rem",
             width: "15rem",
-            height: "5rem",
+            height: "3.5rem",
+            backgroundColor: "#203973",
             ":hover": {
-              bgcolor: "#965ad3",
+              bgcolor: "#3355A8",
             },
             mx: 1,
           }}
