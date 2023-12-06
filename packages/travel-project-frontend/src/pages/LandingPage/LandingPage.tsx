@@ -4,7 +4,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link as RouterLink } from "react-router-dom";
 
 const landing =
-  "url('https://unsplash.com/photos/KMn4VEeEPR8/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8dHJvcGljYWwlMjBiZWFjaHxlbnwwfHx8fDE3MDE4NDgyMTN8MA&force=true')";
+  "url('https://afar.brightspotcdn.com/dims4/default/2bf2b30/2147483647/strip/true/crop/1000x637+0+0/resize/1440x917!/quality/90/?url=https%3A%2F%2Fafar-media-production-web.s3.us-west-2.amazonaws.com%2Fbrightspot%2F7e%2F18%2F203e24c54a25880e3e516907e065%2Fshutterstock-1455531734.jpg')";
 
 const theme1 = createTheme({
   typography: {
