@@ -11,3 +11,7 @@ UI Prototype:
 
 
 Development environment set up:
+From the root directory
+1) npm run setup
+2) in order to run frontend, npm start
+3) in order to run backend, npm run serve
