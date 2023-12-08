@@ -3,13 +3,17 @@ import { Container, TextField, Button, Box, Paper } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { createEvent } from "../../httpClient/event";
 import { useLocation, useNavigate } from "react-router-dom";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { type Dayjs, isDayjs } from "dayjs";
 
 function CreateEvent(): React.ReactElement {
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [startTime, setStartTime] = useState<Dayjs>();
+  const [endTime, setEndTime] = useState<Dayjs>();
   const [eventTitle, setEventTitle] = useState("");
   const [ticketLink, setTicketLink] = useState("");
-  const [cost, setCost] = useState<string>("");
+  const [cost, setCost] = useState<number>(0);
   const [eventLocation, setEventLocation] = useState("");
   const [description, setDescription] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -20,19 +24,21 @@ function CreateEvent(): React.ReactElement {
     (async () => {
       setIsValid(false);
       try {
-        const eventData = {
-          name: eventTitle,
-          startTime,
-          endTime,
-          cost: parseInt(cost),
-          link: ticketLink,
-          description,
-        };
+        if (startTime !== undefined && endTime !== undefined) {
+          const eventData = {
+            name: eventTitle,
+            startTime: startTime.format("hh:mm A"),
+            endTime: endTime.format("hh:mm A"),
+            cost,
+            link: ticketLink,
+            description,
+          };
 
-        const dayId = parseInt(location.state?.dayId);
-        const itenId = parseInt(location.state?.itineraryId);
-        await createEvent(eventData, dayId);
-        navigate(`/itinerary/${itenId}/day/${dayId}/`);
+          const dayId = parseInt(location.state?.dayId);
+          const itenId = parseInt(location.state?.itineraryId);
+          await createEvent(eventData, dayId);
+          navigate(`/itinerary/${itenId}/day/${dayId}/`);
+        }
       } catch (error) {
         console.error("Error creating event:", error);
       }
@@ -57,7 +63,12 @@ function CreateEvent(): React.ReactElement {
             alignItems="center"
             justifyContent="center"
           >
-            <Grid container spacing={2}>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
               <Grid xs={6}>
                 <TextField
                   label="Event Title"
@@ -105,73 +116,60 @@ function CreateEvent(): React.ReactElement {
                 />
               </Grid>
               <Grid xs={3}>
-                <TextField
-                  label="Start Time"
-                  type="time"
-                  variant="outlined"
-                  value={startTime}
-                  onChange={(e) => {
-                    setStartTime(e.target.value);
-                  }}
-                  margin="normal"
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    step: 300,
-                  }}
-                  sx={{
-                    backgroundColor: "#fff",
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: "#3355A8",
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker
+                    onChange={(value) => {
+                      if (isDayjs(value)) {
+                        setStartTime(value);
+                      }
+                    }}
+                    sx={{
+                      backgroundColor: "#fff",
+                      "& .MuiOutlinedInput-root": {
+                        "&:hover fieldset": {
+                          borderColor: "#3355A8",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#203973",
+                        },
                       },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#203973",
-                      },
-                    },
-                  }}
-                />
+                    }}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid xs={3}>
-                <TextField
-                  label="End Time"
-                  type="time"
-                  variant="outlined"
-                  value={endTime}
-                  onChange={(e) => {
-                    setEndTime(e.target.value);
-                  }}
-                  margin="normal"
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    step: 300,
-                  }}
-                  sx={{
-                    backgroundColor: "#fff",
-                    "& .MuiOutlinedInput-root": {
-                      "&:hover fieldset": {
-                        borderColor: "#3355A8",
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker
+                    onChange={(value) => {
+                      if (isDayjs(value)) {
+                        setEndTime(value);
+                      }
+                    }}
+                    sx={{
+                      backgroundColor: "#fff",
+                      "& .MuiOutlinedInput-root": {
+                        "&:hover fieldset": {
+                          borderColor: "#3355A8",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#203973",
+                        },
                       },
-                      "&.Mui-focused fieldset": {
-                        borderColor: "#203973",
-                      },
-                    },
-                  }}
-                />
+                    }}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid xs={6}>
                 <TextField
                   label="Estimated Cost"
                   variant="outlined"
                   inputMode="numeric"
+                  inputProps={{ inputMode: "numeric" }}
                   value={cost}
                   onChange={(e) => {
-                    setCost(e.target.value);
+                    setCost(
+                      e.target.value === "" ? 0 : parseInt(e.target.value),
+                    );
                   }}
                   margin="normal"
                   fullWidth
@@ -244,8 +242,8 @@ function CreateEvent(): React.ReactElement {
                 onClick={handleCreateButtonClick}
                 disabled={
                   eventTitle === "" ||
-                  startTime === "" ||
-                  endTime === "" ||
+                  startTime === undefined ||
+                  endTime === undefined ||
                   !isValid
                 }
                 sx={{
