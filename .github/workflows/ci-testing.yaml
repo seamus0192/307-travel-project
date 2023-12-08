@@ -31,4 +31,4 @@ jobs:
         run: npm run -w packages/travel-project-backend lint
 
       - name: Build backend
-        run:  npm run -w packages/travel-project-backend build
+        run:  npm run -w packages/travel-project-backend setup-deploy
