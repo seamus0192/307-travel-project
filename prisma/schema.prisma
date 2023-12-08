@@ -56,7 +56,7 @@ model Event {
   startTime   String
   endTime     String
   cost        Int?
-  link        String? @db.VarChar(500)
+  link        String? @db.Text
   description String? @db.Text
   day         Day     @relation(fields: [dayId], references: [id], onDelete: Cascade)
   dayId       Int
