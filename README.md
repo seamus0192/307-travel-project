@@ -16,3 +16,6 @@ From the root directory
 1) npm run setup
 2) in order to run frontend, npm start
 3) in order to run backend, npm run serve
+
+UML diagram:
+https://github.com/seamus0192/307-travel-project/blob/main/docs/UML.md
